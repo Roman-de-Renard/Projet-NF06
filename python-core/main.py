@@ -1,5 +1,6 @@
 import ctypes as ct
 from pathlib import Path
+from c_structures import *
 
 
 def open_dll(name='libc_libs.dll'):

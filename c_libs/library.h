@@ -1,7 +1,15 @@
 #ifndef PROJET_NF06_LIBRARY_H
 #define PROJET_NF06_LIBRARY_H
 
+
 typedef struct person person;
+
+struct plane;
+
+struct flight;
+
+struct airline;
+
 
 int add_int(int a, int b);
 
