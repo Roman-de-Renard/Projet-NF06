@@ -17,4 +17,5 @@ if __name__ == '__main__':
     foo = ct.c_int(3)
     bar = ct.c_int(6)
     print(c_lib.add_int(foo, bar))
+    print("Wesh alors")
     c_lib.print_hello()
