@@ -1,2 +1,3 @@
 # Project exclude paths
 /c_libs/cmake-build-debug/
+/python-core/venv/
