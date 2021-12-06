@@ -31,5 +31,5 @@ int is_adult(person *p) {
 }
 
 void print_hello() {
-    printf("Hello world, i'm a c function");
+    printf("Hello world, i'm a C function");
 }
