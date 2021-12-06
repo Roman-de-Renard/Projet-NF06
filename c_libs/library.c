@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 typedef struct person{
@@ -27,4 +28,8 @@ void swap(void *a, void *b, size_t len) {
 
 int is_adult(person *p) {
     return p->age >= 18;
+}
+
+void print_hello() {
+    printf("Hello world, i'm a c function");
 }
