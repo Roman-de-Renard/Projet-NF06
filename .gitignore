@@ -1,3 +1,9 @@
 # Project exclude paths
 /c_libs/cmake-build-debug/
 /python-core/venv/
+
+/c_libs/.idea/c_libs.iml
+/c_libs/.idea/workspace.xml
+/c_libs/.idea/vcs.xml
+/c_libs/.idea/modules.xml
+/c_libs/.idea/misc.xml
