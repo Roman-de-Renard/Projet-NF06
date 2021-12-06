@@ -21,3 +21,5 @@ if __name__ == '__main__':
     print("Wesh alors")
     print("Salut c'est moi, tchoupi")
     c_lib.print_hello()
+    our_plane = Plane(b"Airbus A320", ct.c_int(258))
+    c_lib.print_plane(our_plane)

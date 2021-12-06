@@ -21,4 +21,6 @@ int is_adult(person *p);
 
 void print_hello();
 
+void print_plane(struct plane airplane);
+
 #endif //PROJET_NF06_LIBRARY_H

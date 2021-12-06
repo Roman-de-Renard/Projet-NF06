@@ -12,7 +12,7 @@ typedef struct person{
 }person ;
 
 struct plane{
-    char *plane_type;
+    char plane_type[20];
     int max_capacity;
 };
 
@@ -55,4 +55,8 @@ int is_adult(person *p) {
 
 void print_hello() {
     printf("Hello world, i'm a C function");
+}
+
+void print_plane(struct plane airplane) {
+    printf("The %s airplane has a max capacity of %d", airplane.plane_type, airplane.max_capacity);
 }
