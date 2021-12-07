@@ -72,5 +72,10 @@ void print_flight(struct flight air_route) {
 }
 
 struct airline* plan_for_4_months(struct airline current_airline){
+    struct flight months_table[17][7][4];
+
+}
+void planing(struct airline){
+    int i;
 
 }
