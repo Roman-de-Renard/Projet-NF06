@@ -3,7 +3,7 @@ import ctypes as ct
 
 class Plane(ct.Structure):
     _fields_ = [
-        ("plane_type", ct.c_char * 20),
+        ("plane_type", ct.c_char_p),
         ("max_capacity", ct.c_int)
     ]
 

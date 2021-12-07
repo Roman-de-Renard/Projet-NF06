@@ -12,13 +12,14 @@ typedef struct person{
 }person ;
 
 struct plane{
-    char plane_type[20];
+    char *plane_type;
     int max_capacity;
 };
 
 struct flight{
     char number[7];
     int frequency;
+    int number_of_possible_planes;
     struct plane *possible_planes;
     int min_capacity;
     int max_capacity;
@@ -54,9 +55,22 @@ int is_adult(person *p) {
 }
 
 void print_hello() {
-    printf("Hello world, i'm a C function");
+    printf("\nHello world, i'm a C function");
 }
 
 void print_plane(struct plane airplane) {
-    printf("The %s airplane has a max capacity of %d", airplane.plane_type, airplane.max_capacity);
+    printf("\nThe %s airplane has a max capacity of %d", airplane.plane_type, airplane.max_capacity);
+}
+
+void print_flight(struct flight air_route) {
+    printf("\nThe flight id %s, with frequency id %d can be done by %d planes", air_route.number, air_route.frequency, air_route.number_of_possible_planes);
+    int i;
+    for(i = 0; i < air_route.number_of_possible_planes; i++) {
+        print_plane(air_route.possible_planes[i]);
+    }
+    printf("\nThe flight has a min capacity of %d and a max capacity of %d", air_route.min_capacity, air_route.max_capacity);
+}
+
+struct airline* plan_for_4_months(struct airline current_airline){
+
 }

@@ -23,4 +23,8 @@ void print_hello();
 
 void print_plane(struct plane airplane);
 
+void print_flight(struct flight air_route);
+
+struct airline* plan_for_4_month(struct airline current_airline);
+
 #endif //PROJET_NF06_LIBRARY_H
