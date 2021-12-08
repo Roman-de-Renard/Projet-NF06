@@ -1,4 +1,3 @@
-import ctypes as ct
 from pathlib import Path
 from c_structures import *
 
@@ -48,16 +47,24 @@ def assign_plane_value(airline, flight, plane):  # permet d'assigner les valeurs
 
 if __name__ == '__main__':
     c_lib = open_dll()
-    assign_plane_value(Airline, Flight, Plane)
+    # assign_plane_value(Airline, Flight, Plane)
     # foo = ct.c_int(3)
     # bar = ct.c_int(6)
     # print(c_lib.add_int(foo, bar))
     # print("Wesh alors")
     # print("Salut c'est moi, tchoupi")
     # c_lib.print_hello()
-    # our_plane = Plane(b"Airbus A320", ct.c_int(258))  # b"foo" allows to convert the string into a bytes object
+    our_plane = [(Plane(b"Airbus A320", ct.c_int(258)),
+                  Plane(b"Boeing 747", ct.c_int(196)))]  # b"foo" allows to convert the string into a bytes object
     # # (necessary for ctypes)
     # c_lib.print_plane(our_plane)
-    # listofplanes = (Plane * 2)(Plane(b"Airbus A320", ct.c_int(258)), Plane(b"Boeing 747", ct.c_int(196)))
-    # our_flight = Flight(b"4402FE", ct.c_int(1), ct.c_int(2), listofplanes, ct.c_int(150), ct.c_int(300))
-    # c_lib.print_flight(our_flight)  # It works !
+    list_of_planes = [Plane(b"Airbus A320", ct.c_int(170)), Plane(b"Boeing 747", ct.c_int(196))]
+    c_planes = (Plane * len(list_of_planes))()
+    # listofplanes = l()
+    for i, elem in enumerate(list_of_planes):
+        c_planes[i] = elem
+
+    # for i, p in enumerate(our_plane:
+    #     listofplanes[i] = p
+    our_flight = Flight(b"4402FE", ct.c_int(1), ct.c_int(2), c_planes, ct.c_int(150), ct.c_int(300))
+    c_lib.print_flight(our_flight)  # It works !

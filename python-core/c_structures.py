@@ -18,12 +18,16 @@ class Flight(ct.Structure):
         ("max_capacity", ct.c_int)
     ]
 
+    # def __init__(self, f, n):
+    #     # self.number = ct.c_char_p()
+    #     self.number_of_possible_planes = ct.c_int(f)
+
 
 class Airline(ct.Structure):
     _fields_ = [
         ("name", ct.c_char_p),
         ("number_of_flights", ct.c_int),
-        ("fleet",ct.POINTER(Plane)),
+        # ("fleet", ct.POINTER(Plane)),
         ("flight_list", ct.POINTER(Flight)),
         ("priority", ct.c_int)
     ]
