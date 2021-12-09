@@ -70,6 +70,10 @@ void print_flight(struct flight air_route) {
     }
     printf("\nThe flight has a min capacity of %d and a max capacity of %d", air_route.min_capacity, air_route.max_capacity);
 }
+void print_airline(struct airline current_airline)
+{
+    printf("\nThe company is %s, it has %d flight and a priority of %d", current_airline.name, current_airline.number_of_flights,current_airline.priority);
+}
 
 struct airline* plan_for_4_months(struct airline current_airline){
 

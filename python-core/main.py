@@ -66,5 +66,13 @@ if __name__ == '__main__':
 
     # for i, p in enumerate(our_plane:
     #     listofplanes[i] = p
-    our_flight = Flight(b"4402FE", ct.c_int(1), ct.c_int(2), c_planes, ct.c_int(150), ct.c_int(300))
+    our_flight = [Flight(b"4402FE", ct.c_int(1), ct.c_int(2), c_planes, ct.c_int(150), ct.c_int(300))]
+    c_flight = (Flight * len(our_flight))()
+    for j, elem1 in enumerate(our_flight):
+        c_flight[j] = elem1
+    our_airline = {Airline(b"Air France", ct.c_int(len(our_flight)), ct.POINTER(c_flight), ct.c_int(1))}
+    c_airline = (Airline * len(our_airline))()
+    for k, elem2 in enumerate(our_airline):
+        c_airline[k] = elem2
+    c_lib.print_airline(c_airline)
     c_lib.print_flight(our_flight)  # It works !
