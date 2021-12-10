@@ -60,7 +60,6 @@ if __name__ == '__main__':
     # c_lib.print_plane(our_plane)
     list_of_planes = [Plane(b"Airbus A320", ct.c_int(170)), Plane(b"Boeing 747", ct.c_int(196))]
     c_planes = (Plane * len(list_of_planes))()
-    # listofplanes = l()
     for i, elem in enumerate(list_of_planes):
         c_planes[i] = elem
 

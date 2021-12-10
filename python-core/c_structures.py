@@ -11,22 +11,31 @@ class Plane(ct.Structure):
 class Flight(ct.Structure):
     _fields_ = [
         ("number", ct.c_char * 7),
-        ("frequency", ct.c_int),
-        ("number_of_possible_planes", ct.c_int),
         ("possible_planes", ct.POINTER(Plane)),  # Might become a problem, pointer to only the first element
+        ("departure_city", ct.c_char_p),
+        ("arrival_city", ct.c_char_p),
+        ("index_of_plane", ct.c_int),
         ("min_capacity", ct.c_int),
         ("max_capacity", ct.c_int)
     ]
 
-    # def __init__(self, f, n):
-    #     # self.number = ct.c_char_p()
-    #     self.number_of_possible_planes = ct.c_int(f)
+
+class Route(ct.Structure):
+    _fields_ = [
+        ("frequency", ct.c_int),
+        ("number_of_possible_planes", ct.c_int),
+        ("possible_planes", ct.POINTER(Plane)),
+        ("departure_city", ct.c_char_p),
+        ("arrival_city", ct.c_char_p),
+        ("min_capacity", ct.c_int),
+        ("max_capacity", ct.c_int)
+    ]
 
 
 class Airline(ct.Structure):
     _fields_ = [
         ("name", ct.c_char_p),
-        ("number_of_flights", ct.c_int),
+        ("number_of_route", ct.c_int),
         ("fleet", ct.POINTER(Plane)),
         ("route_list", ct.POINTER(Flight)),
         ("priority", ct.c_int)
