@@ -2,11 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 //Structures
-
-
-
 struct plane{
     char *plane_type;
     int max_capacity;
@@ -38,6 +34,7 @@ struct airline{
     struct route *flight_route; // List of all flights of an airline
     int priority; // Allows for prioritisation of certain airlines
     struct plane *fleet;
+
 };
 
 
