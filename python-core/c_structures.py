@@ -27,7 +27,7 @@ class Airline(ct.Structure):
     _fields_ = [
         ("name", ct.c_char_p),
         ("number_of_flights", ct.c_int),
-        # ("fleet", ct.POINTER(Plane)),
-        ("flight_list", ct.POINTER(Flight)),
+        ("fleet", ct.POINTER(Plane)),
+        ("route_list", ct.POINTER(Flight)),
         ("priority", ct.c_int)
     ]

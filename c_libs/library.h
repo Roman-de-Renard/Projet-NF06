@@ -6,7 +6,7 @@ typedef struct person person;
 
 struct plane;
 
-struct flight;
+struct route;
 
 struct airline;
 
@@ -23,7 +23,7 @@ void print_hello();
 
 void print_plane(struct plane airplane);
 
-void print_flight(struct flight air_route);
+void print_flight(struct route air_route);
 
 struct airline* plan_for_4_month(struct airline current_airline);
 
