@@ -8,6 +8,11 @@ struct plane{
     int max_capacity;
 };
 
+struct day{
+    int number_flights;
+    struct flight *flights_of_the_day;
+};
+
 struct route{
     int frequency;
     int number_of_possible_planes;
@@ -63,10 +68,10 @@ struct airline* plan_for_4_months(struct airline current_airline){
 
 }
 
-void planing(struct airline curent_airline){
+void planing(struct airline *curent_airline){
     int i;
     struct route months_table[17][7][4];
-    for (i=0;i<curent_airline.number_of_route;i++)
+    for (i=0;i<curent_airline->number_of_route;i++)
     {
 
     }

@@ -20,6 +20,13 @@ class Flight(ct.Structure):
     ]
 
 
+class day(ct.Structure):
+    _fields_ = [
+        ("number_flights", ct.c_int),
+        ("flights_of_the_day", ct.POINTER(Flight))
+    ]
+
+
 class Route(ct.Structure):
     _fields_ = [
         ("frequency", ct.c_int),

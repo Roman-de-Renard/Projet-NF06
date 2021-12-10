@@ -12,6 +12,8 @@ struct flight;
 
 struct airline;
 
+struct day;
+
 void print_plane(struct plane airplane);
 
 void print_flight(struct route air_route);
