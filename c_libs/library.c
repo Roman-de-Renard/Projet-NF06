@@ -30,6 +30,7 @@ struct flight{
     char number[7];
     char *departure_city;
     char *arrival_city;
+    int index_of_plane;
     int min_capacity;
     int max_capacity;
 };
