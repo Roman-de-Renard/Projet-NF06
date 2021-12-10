@@ -5,11 +5,7 @@
 
 //Structures
 
-typedef struct person{
-    char first_name[20];
-    char last_name[20];
-    int age;
-}person ;
+
 
 struct plane{
     char *plane_type;
@@ -46,29 +42,6 @@ struct airline{
 
 
 //Functions and procedures
-int add_int(int a, int b) {
-    return a + b;
-}
-
-float add_float(float a, float b) {
-    return a + b;
-}
-
-void swap(void *a, void *b, size_t len) {
-    void *tmp = malloc(len);
-    memcpy(tmp, a, len);
-    memcpy(a, b, len);
-    memcpy(b, tmp, len);
-    free(tmp);
-}
-
-int is_adult(person *p) {
-    return p->age >= 18;
-}
-
-void print_hello() {
-    printf("\nHello world, i'm a C function");
-}
 
 void print_plane(struct plane airplane) {
     printf("\nThe %s airplane has a max capacity of %d", airplane.plane_type, airplane.max_capacity);
@@ -84,7 +57,7 @@ void print_flight(struct route air_route) {
 }
 void print_airline(struct airline current_airline)
 {
-    printf("\nThe company is %s, it has %d flight and a priority of %d", current_airline.name, current_airline.number_of_flights,current_airline.priority);
+    printf("\nThe company is %s, it has %d flight and a priority of %d", current_airline.name, current_airline.number_of_route,current_airline.priority);
 }
 
 struct airline* plan_for_4_months(struct airline current_airline){
@@ -95,7 +68,7 @@ struct airline* plan_for_4_months(struct airline current_airline){
 void planing(struct airline curent_airline){
     int i;
     struct route months_table[17][7][4];
-    for (i=0;i<curent_airline.number_of_flights;i++)
+    for (i=0;i<curent_airline.number_of_route;i++)
     {
 
     }
