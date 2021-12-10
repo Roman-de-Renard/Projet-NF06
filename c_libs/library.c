@@ -63,10 +63,7 @@ void print_airline(struct airline current_airline)
     printf("\nThe company is %s, it has %d flight and a priority of %d", current_airline.name, current_airline.number_of_route,current_airline.priority);
 }
 
-struct airline* plan_for_4_months(struct airline current_airline){
 
-
-}
 
 void planing(struct airline *curent_airline){
     int i;
