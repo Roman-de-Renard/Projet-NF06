@@ -22,8 +22,9 @@ class Flight(ct.Structure):
 
 class Day(ct.Structure):
     _fields_ = [
-        ("number_flights", ct.c_int),
+        ("number_of_planned_flights", ct.c_int),
         ("flights_of_the_day", ct.POINTER(Flight)),
+        ("number_of_available_planes", ct.c_int),
         ("available_planes", ct.POINTER(Plane))
     ]
 
@@ -44,7 +45,8 @@ class Airline(ct.Structure):
     _fields_ = [
         ("name", ct.c_char_p),
         ("number_of_route", ct.c_int),
-        ("fleet", ct.POINTER(Plane)),
         ("route_list", ct.POINTER(Flight)),
+        ("size_of_fleet", ct.c_int),
+        ("fleet", ct.POINTER(Plane)),
         ("priority", ct.c_int)
     ]

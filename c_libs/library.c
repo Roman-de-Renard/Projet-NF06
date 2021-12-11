@@ -9,8 +9,9 @@ struct plane{
 };
 
 struct day{
-    int number_flights;
+    int number_of_planned_flights;
     struct flight *flights_of_the_day;
+    int number_of_available_planes;
     struct plane *available_planes;
 };
 
@@ -39,8 +40,9 @@ struct airline{
     char *name;
     int number_of_route; // Length of flight_list
     struct route *route_list; // List of all flights of an airline
-    int priority; // Allows for prioritisation of certain airlines
+    int size_of_fleet; // Length of fleet
     struct plane *fleet;
+    int priority; // Allows for prioritisation of certain airlines
 
 };
 
@@ -65,12 +67,14 @@ void print_airline(struct airline current_airline)
 }
 
 
-void planing(struct airline *current_airline){
+void planning(struct airline *current_airline){
     int i, j, k;
     struct day *calendar;
     calendar = (struct day *) malloc(7*17*sizeof(struct day));
-    for(i = 0; i < 17*7; i++) {
-        calendar[i].available_planes = current_airline->fleet;
+    for(j = 0; j < 17*7; j++) {
+        calendar[j].available_planes = current_airline->fleet;
+        calendar[j].number_of_planned_flights = 0;
+        calendar[j].number_of_available_planes = current_airline->size_of_fleet;
     }
 
 
@@ -80,13 +84,22 @@ void planing(struct airline *current_airline){
             int start_day = 0;
             //Choix du jour de départ
             for(j = 0; j < 30; j++){
-                if(len(calendar[j].flights_of_the_day) < start_day){
+                if(calendar[j].number_of_planned_flights < start_day){
                     start_day = j;
                 }
             }
             for(j = start_day; j < 7*17; j += 30){
                 //Choix de l'avion
-                for(k = 0; k < (sizeof(calendar[i].available_planes) / sizeof(struct plane)); k++){
+                int chosen_plane_index = 0;
+                int plane_is_assigned = 0;
+                for(k = 0; k < calendar[j].number_of_available_planes; k++){
+                    if(chosen_plane_index < calendar[j].available_planes[k].max_capacity){
+                        chosen_plane_index = k;
+                    }
+                }
+                calendar[j].number_of_planned_flights += 1;
+                calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights - 1].
+                for(k = chosen_plane_index; k < calendar[j].number_of_available_planes; k++){
 
                 }
 
