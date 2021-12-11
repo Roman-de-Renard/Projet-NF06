@@ -11,6 +11,7 @@ struct plane{
 struct day{
     int number_flights;
     struct flight *flights_of_the_day;
+    struct plane *available_planes;
 };
 
 struct route{
@@ -37,7 +38,7 @@ struct flight{
 struct airline{
     char *name;
     int number_of_route; // Length of flight_list
-    struct route *flight_route; // List of all flights of an airline
+    struct route *route_list; // List of all flights of an airline
     int priority; // Allows for prioritisation of certain airlines
     struct plane *fleet;
 
@@ -64,12 +65,33 @@ void print_airline(struct airline current_airline)
 }
 
 
+void planing(struct airline *current_airline){
+    int i, j, k;
+    struct day *calendar;
+    calendar = (struct day *) malloc(7*17*sizeof(struct day));
+    for(i = 0; i < 17*7; i++) {
+        calendar[i].available_planes = current_airline->fleet;
+    }
 
-void planing(struct airline *curent_airline){
-    int i;
-    struct route months_table[17][7][4];
-    for (i=0;i<curent_airline->number_of_route;i++)
-    {
+
+    for(i = 0; i < current_airline->number_of_route; i++){
+        //Pour les mensuels
+        if(current_airline->route_list[i].frequency == 2){
+            int start_day = 0;
+            //Choix du jour de départ
+            for(j = 0; j < 30; j++){
+                if(len(calendar[j].flights_of_the_day) < start_day){
+                    start_day = j;
+                }
+            }
+            for(j = start_day; j < 7*17; j += 30){
+                //Choix de l'avion
+                for(k = 0; k < (sizeof(calendar[i].available_planes) / sizeof(struct plane)); k++){
+
+                }
+
+            }
+        }
 
     }
 }

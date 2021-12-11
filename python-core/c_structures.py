@@ -23,7 +23,8 @@ class Flight(ct.Structure):
 class Day(ct.Structure):
     _fields_ = [
         ("number_flights", ct.c_int),
-        ("flights_of_the_day", ct.POINTER(Flight))
+        ("flights_of_the_day", ct.POINTER(Flight)),
+        ("available_planes", ct.POINTER(Plane))
     ]
 
 

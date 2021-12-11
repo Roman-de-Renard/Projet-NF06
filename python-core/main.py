@@ -11,11 +11,10 @@ def open_dll(name='libc_libs.dll'):
     return ct.CDLL(lib_path.as_posix())
 
 
-def assign_plane_value(airline, flight, plane):  # permet d'assigner les valeurs d'entrée
+def assign_plane_value(airline_list, airline, flight, plane):  # permet d'assigner les valeurs d'entrée
     user_input = ""
     user_input1 = ""
     user_input2 = ""
-    airline_list = []
     airline.flight_list = []
     airline.fleet = []
     airline.number_of_flight = 0
