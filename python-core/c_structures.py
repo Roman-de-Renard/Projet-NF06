@@ -11,10 +11,9 @@ class Plane(ct.Structure):
 class Flight(ct.Structure):
     _fields_ = [
         ("number", ct.c_char * 7),
-        ("possible_planes", ct.POINTER(Plane)),  # Might become a problem, pointer to only the first element
         ("departure_city", ct.c_char_p),
         ("arrival_city", ct.c_char_p),
-        ("index_of_plane", ct.c_int),
+        ("attributed_plane", Plane),
         ("min_capacity", ct.c_int),
         ("max_capacity", ct.c_int)
     ]
@@ -45,8 +44,9 @@ class Airline(ct.Structure):
     _fields_ = [
         ("name", ct.c_char_p),
         ("number_of_route", ct.c_int),
-        ("route_list", ct.POINTER(Flight)),
+        ("route_list", ct.POINTER(Route)),
         ("size_of_fleet", ct.c_int),
         ("fleet", ct.POINTER(Plane)),
-        ("priority", ct.c_int)
+        ("priority", ct.c_int),
+        ("dbd_calendar", ct.POINTER(Day))
     ]

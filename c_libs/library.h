@@ -6,18 +6,22 @@ typedef struct person person;
 
 struct plane;
 
+struct day;
+
 struct route;
 
 struct flight;
 
 struct airline;
 
-struct day;
+//void print_plane(struct plane airplane);
 
-void print_plane(struct plane airplane);
+//void print_flight(struct route air_route);
 
-void print_flight(struct route air_route);
+int plane_in_array(struct plane airplane, int array_length, struct plane *airplane_array);
 
-struct airline* plan_for_4_month(struct airline current_airline);
+int min(int x, int y);
+
+void planning(struct airline *current_airline);
 
 #endif //PROJET_NF06_LIBRARY_H
