@@ -29,7 +29,7 @@ struct flight{
     char number[7];
     char *departure_city;
     char *arrival_city;
-    int index_of_plane;
+    struct plane attributed_plane;
     int min_capacity;
     int max_capacity;
 };
@@ -49,61 +49,107 @@ struct airline{
 
 //Functions and procedures
 
-void print_plane(struct plane airplane) {
-    printf("\nThe %s airplane has a max capacity of %d", airplane.plane_type, airplane.max_capacity);
-}
+//void print_plane(struct plane airplane) {
+//    printf("\nThe %s airplane has a max capacity of %d", airplane.plane_type, airplane.max_capacity);
+//}
+//
+//void print_flight(struct route air_route) {
+//    //printf("\nThe flight id %s, with frequency id %d can be done by %d planes", air_route.number, air_route.frequency, air_route.number_of_possible_planes);
+//    int i;
+//    for(i = 0; i < air_route.number_of_possible_planes; i++) {
+//        print_plane(air_route.possible_planes[i]);
+//    }
+//    printf("\nThe flight has a min capacity of %d and a max capacity of %d", air_route.min_capacity, air_route.max_capacity);
+//}
+//void print_airline(struct airline current_airline)
+//{
+//    printf("\nThe company is %s, it has %d flight and a priority of %d", current_airline.name, current_airline.number_of_route,current_airline.priority);
+//}
 
-void print_flight(struct route air_route) {
-    //printf("\nThe flight id %s, with frequency id %d can be done by %d planes", air_route.number, air_route.frequency, air_route.number_of_possible_planes);
+
+int plane_in_array(struct plane airplane, int array_length, struct plane *airplane_array) {
     int i;
-    for(i = 0; i < air_route.number_of_possible_planes; i++) {
-        print_plane(air_route.possible_planes[i]);
+    int is_in_array = 0;
+    for (i = 0; i < array_length; i++) {
+        if (airplane.max_capacity == airplane_array[i].max_capacity
+            && airplane.plane_type == airplane_array[i].plane_type) {
+            is_in_array = 1;
+            break;
+        }
     }
-    printf("\nThe flight has a min capacity of %d and a max capacity of %d", air_route.min_capacity, air_route.max_capacity);
+    return is_in_array;
 }
-void print_airline(struct airline current_airline)
+
+
+int min(int x, int y)
 {
-    printf("\nThe company is %s, it has %d flight and a priority of %d", current_airline.name, current_airline.number_of_route,current_airline.priority);
+    return (x < y) ? x : y;
 }
 
 
-void planning(struct airline *current_airline){
+void planning(struct airline *current_airline) {
     int i, j, k;
-    struct day *calendar;
-    calendar = (struct day *) malloc(7*17*sizeof(struct day));
-    for(j = 0; j < 17*7; j++) {
+    struct day *calendar = (struct day *) malloc(7 * 17 * sizeof(*calendar));
+    for (j = 0; j < 17 * 7; j++) { //TODO: malloc for all calendar attributes
         calendar[j].available_planes = current_airline->fleet;
         calendar[j].number_of_planned_flights = 0;
         calendar[j].number_of_available_planes = current_airline->size_of_fleet;
     }
 
 
-    for(i = 0; i < current_airline->number_of_route; i++){
-        //Pour les mensuels
-        if(current_airline->route_list[i].frequency == 2){
-            int start_day = 0;
-            //Choix du jour de départ
-            for(j = 0; j < 30; j++){
-                if(calendar[j].number_of_planned_flights < start_day){
-                    start_day = j;
-                }
+
+    for (i = 0; i < current_airline->number_of_route; i++) { // Pour tout  i, itinéraire
+        //Attribution de day_interval
+        int day_interval = 1;
+        switch (current_airline->route_list[i].frequency) {
+            case 0:
+                day_interval = 1;
+                break;
+            case 1:
+                day_interval = 7;
+                break;
+            case 2:
+                day_interval = 30;
+                break;
+            default:
+                day_interval = 1;
+                break;
+        }
+        //Choix du jour de départ
+        int start_day = 0;
+        for (j = 0; j < day_interval; j++) { // Pour les 30 premiers jours
+            if (calendar[j].number_of_planned_flights < calendar[start_day].number_of_planned_flights) {
+                start_day = j;
             }
-            for(j = start_day; j < 7*17; j += 30){
-                //Choix de l'avion
-                int chosen_plane_index = 0;
-                int plane_is_assigned = 0;
-                for(k = 0; k < calendar[j].number_of_available_planes; k++){
-                    if(chosen_plane_index < calendar[j].available_planes[k].max_capacity){
+        }
+        for (j = start_day; j < 7 * 17; j += day_interval) { // Tout les day_interval jours, en partant de start_day
+            if (calendar[j].number_of_planned_flights < 4 && calendar[j].number_of_available_planes >= 1) { // Si on a pas deja 4 vols et qu'on a au moins un avion dispo
+                // Choix de l'avion
+                struct plane attributed_plane;
+                attributed_plane.max_capacity = 0;
+                int chosen_plane_index; // For deletion in available_planes
+                for (k = 0; k < calendar[j].number_of_available_planes; k++) {
+                    if (abs(calendar[j].available_planes[k].max_capacity - current_airline->route_list[i].max_capacity) < abs(attributed_plane.max_capacity - current_airline->route_list[i].max_capacity)
+                        && plane_in_array(calendar[j].available_planes[k], current_airline->route_list[i].number_of_possible_planes, current_airline->route_list[i].possible_planes)) {
+                        attributed_plane = calendar[j].available_planes[k];
                         chosen_plane_index = k;
                     }
                 }
-                calendar[j].number_of_planned_flights += 1;
-                calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights - 1].
-                for(k = chosen_plane_index; k < calendar[j].number_of_available_planes; k++){
-
+                if (attributed_plane.max_capacity != 0) { // Si on a reussi a attribuer un avion
+                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].attributed_plane = attributed_plane;
+                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].min_capacity = current_airline->route_list[i].min_capacity;
+                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city = current_airline->route_list[i].departure_city;
+                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].arrival_city = current_airline->route_list[i].arrival_city;
+                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].max_capacity = min(current_airline->route_list->max_capacity, attributed_plane.max_capacity);
+                    sprintf(calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].number, "%c%c%03d%d", current_airline->name[0], current_airline->name[1], j, calendar[j].number_of_planned_flights);
+                    for (k = chosen_plane_index + 1; k < calendar[j].number_of_available_planes; k++) {
+                        calendar[j].available_planes[k - 1] = calendar[j].available_planes[k];
+                    }
+                    calendar[j].number_of_available_planes -= 1;
+                    calendar[j].number_of_planned_flights += 1;
                 }
-
             }
+
         }
 
     }
