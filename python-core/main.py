@@ -53,24 +53,31 @@ if __name__ == '__main__':
     # print("Wesh alors")
     # print("Salut c'est moi, tchoupi")
     # c_lib.print_hello()
-    our_plane = [(Plane(b"Airbus A320", ct.c_int(258)),
-                  Plane(b"Boeing 747", ct.c_int(196)))]  # b"foo" allows to convert the string into a bytes object
-    # # (necessary for ctypes)
-    # c_lib.print_plane(our_plane)
-    list_of_planes = [Plane(b"Airbus A320", ct.c_int(170)), Plane(b"Boeing 747", ct.c_int(196))]
-    c_planes = (Plane * len(list_of_planes))()
-    for i, elem in enumerate(list_of_planes):
+    planes = [Plane(b"Airbus A320", ct.c_int(258)),  # Les Plane qui existent (PAS UN ARGUMENT)
+              Plane(b"Boeing 747", ct.c_int(182)),
+              Plane(b"Airbus A380", ct.c_int(300)),
+              Plane(b"Boeing 737", ct.c_int(155)),
+              Plane(b"Cessna", ct.c_int(6))]  # b"foo" allows to convert the string into a bytes object
+
+    c_planes = (Plane * len(planes))()
+    for i, elem in enumerate(planes):
         c_planes[i] = elem
-    city = ["Paris", "Tokyo"]
-    our_flight = [
-        Flight(ct.c_char_p(city), c_planes[0], ct.c_char_p(city[1]), ct.c_int(300), ct.c_int(150), b"4402FE")]
-    c_flight = (Flight * len(our_flight))()
-    for j, elem1 in enumerate(our_flight):
-        c_flight[j] = elem1
-    our_airline = [Airline(b"Air France", ct.c_int(len(our_flight)), c_flight, ct.c_int(1)),
-                   Airline(b"Easy Jet", ct.c_int(len(our_flight)), c_flight, ct.c_int(3))]
-    c_airline = (Airline * len(our_airline))()
-    for k, elem2 in enumerate(our_airline):
-        c_airline[k] = elem2
-    for m in range(len(our_airline)):
-        c_lib.planning(c_airline[m])
+    cities = [b"Paris", b"Tokyo", b"London", b"Troyes"]
+    c_cities = (ct.c_char_p * len(cities))()
+    for i, elem in enumerate(cities):
+        c_cities[i] = elem
+    routes = [
+        Route(0, 2, (Plane * 2)(c_planes[1], c_planes[3]), c_cities[0], c_cities[3],
+              ct.c_int(150), ct.c_int(200)),
+        Route(1, 1, (Plane * 1)(c_planes[3]), c_cities[1], c_cities[0],
+              ct.c_int(250), ct.c_int(290)),
+        Route(2, 3, (Plane * 3)(c_planes[4], c_planes[1], c_planes[3]), c_cities[0],
+              c_cities[3], ct.c_int(2), ct.c_int(5))
+    ]
+    c_routes = (Route * len(routes))()
+    for i, elem in enumerate(routes):
+        c_routes[i] = elem
+    test_airline = Airline(b"WTF Airways", ct.c_int(3), c_routes, ct.c_int(5), c_planes, ct.c_int(3),
+                           ct.pointer())
+    c_lib.planning(test_airline)
+    print(test_airline.dbd_calendar)
