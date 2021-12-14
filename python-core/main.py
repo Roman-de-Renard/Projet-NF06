@@ -46,6 +46,8 @@ def assign_plane_value(airline_list, airline, flight, plane):  # permet d'assign
 
 if __name__ == '__main__':
     c_lib = open_dll()
+    c_lib.planning.argtypes = [ct.POINTER(Airline)]
+    c_lib.planning.restype = ct.POINTER(Day)
     # assign_plane_value(Airline, Flight, Plane)
     # foo = ct.c_int(3)
     # bar = ct.c_int(6)
@@ -79,6 +81,6 @@ if __name__ == '__main__':
         c_routes[i] = elem
     test_airline = Airline(b"WTF Airways", ct.c_int(3), c_routes, ct.c_int(5), c_planes, ct.c_int(3),
                            ct.pointer(Day()))
-    calendar = c_lib.planning(test_airline)
-    for i in range(17 * 7):
+    calendar = c_lib.planning(ct.byref(test_airline))
+    for i in range(155):
         print(i, " : ", calendar[i].number_of_planned_flights)
