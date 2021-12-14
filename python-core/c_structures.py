@@ -7,6 +7,10 @@ class Plane(ct.Structure):
         ("max_capacity", ct.c_int)
     ]
 
+    def __repr__(self):
+        face = "{}, capacite max {}".format(self.plane_type, self.max_capacity)
+        return face
+
 
 class Flight(ct.Structure):
     _fields_ = [
@@ -18,6 +22,12 @@ class Flight(ct.Structure):
         ("max_capacity", ct.c_int)
     ]
 
+    def __str__(self):
+        face = "Vol {}, au depart de {} et arrivant a {}, dans un {} et avec une capacite de {} a {} passagers.".format(
+            self.number, self.departure_city, self.arrival_city,
+            self.attributed_plane, self.min_capacity, self.max_capacity)
+        return face
+
 
 class Day(ct.Structure):
     _fields_ = [
@@ -26,6 +36,16 @@ class Day(ct.Structure):
         ("number_of_available_planes", ct.c_int),
         ("available_planes", ct.POINTER(Plane))
     ]
+
+    def __str__(self):
+        face = ""
+        face += "Il y a {} vols prevus ce jour : \n".format(self.number_of_planned_flights)
+        for i in range(self.number_of_planned_flights):
+            face += "   -{}\n".format(self.flights_of_the_day[i])
+        face += "Il reste {} avions disponibles ce jour : \n".format(self.number_of_available_planes)
+        for i in range(self.number_of_available_planes):
+            face += "   -{}\n".format(self.available_planes[i])
+        return face
 
 
 class Route(ct.Structure):

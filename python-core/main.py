@@ -82,5 +82,5 @@ if __name__ == '__main__':
     test_airline = Airline(b"WTF Airways", ct.c_int(3), c_routes, ct.c_int(5), c_planes, ct.c_int(3),
                            ct.pointer(Day()))
     calendar = c_lib.planning(ct.byref(test_airline))
-    for i in range(155):
-        print(i, " : ", calendar[i].number_of_planned_flights)
+    for i in range(17 * 7):
+        print(i, " : ", calendar[i])

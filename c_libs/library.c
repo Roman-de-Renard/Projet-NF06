@@ -91,7 +91,7 @@ int min(int x, int y)
 }
 
 
-struct day *planning(struct airline *current_airline) {
+struct day* planning(struct airline *current_airline) {
     int i, j, k;
     struct day *calendar = (struct day *) malloc(7 * 17 * sizeof(struct day));
     for (j = 0; j < 17 * 7; j++) {
@@ -158,9 +158,13 @@ struct day *planning(struct airline *current_airline) {
 //                    calendar[j].available_planes = (struct plane *) realloc(calendar[j].available_planes, calendar[j].number_of_available_planes * sizeof(struct plane));
                     calendar[j].number_of_planned_flights += 1;
                 }
+                else{printf("Echec de l'attribution d'avion");}
             }
         }
     }
+//    for (j = 0; j < 17*7; j++) {
+//        printf("%d : %d\n", j, calendar[j].number_of_planned_flights);
+//    }
     return calendar;
 //    int n_of_planned_flights = 0;
 //    for(j = 0;  j < 17 * 7; j++) {

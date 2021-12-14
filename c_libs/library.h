@@ -22,6 +22,6 @@ int plane_in_array(struct plane airplane, int array_length, struct plane *airpla
 
 int min(int x, int y);
 
-void planning(struct airline *current_airline);
+struct day* planning(struct airline *current_airline);
 
 #endif //PROJET_NF06_LIBRARY_H
