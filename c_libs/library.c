@@ -46,7 +46,7 @@ struct airline{
     int size_of_fleet; // Length of fleet
     struct plane *fleet;
     int priority; // Allows for prioritisation of certain airlines
-    struct day *dbd_calendar;
+//    struct day *dbd_calendar;
 
 };
 
@@ -91,7 +91,7 @@ int min(int x, int y)
 }
 
 
-void planning(struct airline *current_airline) {
+struct day *planning(struct airline *current_airline) {
     int i, j, k;
     struct day *calendar = (struct day *) malloc(7 * 17 * sizeof(struct day));
     for (j = 0; j < 17 * 7; j++) {
@@ -161,10 +161,11 @@ void planning(struct airline *current_airline) {
             }
         }
     }
+    return calendar;
 //    int n_of_planned_flights = 0;
 //    for(j = 0;  j < 17 * 7; j++) {
 //        n_of_planned_flights += calendar[j].number_of_planned_flights;
 //    }
-    current_airline->dbd_calendar = (struct day *) malloc(17 * 7 * sizeof(struct day));
-    current_airline->dbd_calendar = calendar;
+//    current_airline->dbd_calendar = (struct day *) malloc(17 * 7 * sizeof(struct day));
+//    current_airline->dbd_calendar = calendar;
 }
