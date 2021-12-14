@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Projet-NF06"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="c_libs">
+				<Option output="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/libc_libs.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="D:/minGW64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
+					<Add directory="D:/minGW64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="D:/minGW64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 c_libs"/>
+					<CompileFile command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="c_libs/fast">
+				<Option output="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/libc_libs.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="D:/minGW64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
+					<Add directory="D:/minGW64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="D:/minGW64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 c_libs/fast"/>
+					<CompileFile command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/minGW64/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/library.c">
+			<Option target="c_libs"/>
+		</Unit>
+		<Unit filename="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/library.h">
+			<Option target="c_libs"/>
+		</Unit>
+		<Unit filename="C:/Users/Martin/CLionProjects/Projet-NF06/c_libs/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
