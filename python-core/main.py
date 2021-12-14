@@ -61,15 +61,16 @@ if __name__ == '__main__':
     c_planes = (Plane * len(list_of_planes))()
     for i, elem in enumerate(list_of_planes):
         c_planes[i] = elem
-
-    # for i, p in enumerate(our_plane:
-    #     listofplanes[i] = p
-    our_flight = [Flight(b"4402FE", ct.c_int(1), ct.c_int(2), c_planes, ct.c_int(150), ct.c_int(300))]
+    city = ["Paris", "Tokyo"]
+    our_flight = [
+        Flight(ct.c_char_p(city), c_planes[0], ct.c_char_p(city[1]), ct.c_int(300), ct.c_int(150), b"4402FE")]
     c_flight = (Flight * len(our_flight))()
     for j, elem1 in enumerate(our_flight):
         c_flight[j] = elem1
-    our_airline = [Airline(b"Air France", ct.c_int(len(our_flight)), c_flight, ct.c_int(1))]
+    our_airline = [Airline(b"Air France", ct.c_int(len(our_flight)), c_flight, ct.c_int(1)),
+                   Airline(b"Easy Jet", ct.c_int(len(our_flight)), c_flight, ct.c_int(3))]
     c_airline = (Airline * len(our_airline))()
     for k, elem2 in enumerate(our_airline):
         c_airline[k] = elem2
-
+    for m in range(len(our_airline)):
+        c_lib.planning(c_airline[m])
