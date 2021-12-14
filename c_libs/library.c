@@ -161,7 +161,7 @@ struct day *planning(struct airline *current_airline) {
             }
         }
     }
-    return calendar;
+    return calendar;//dans le débug on voit que calendar est un int à voir où est le problème
 //    int n_of_planned_flights = 0;
 //    for(j = 0;  j < 17 * 7; j++) {
 //        n_of_planned_flights += calendar[j].number_of_planned_flights;
@@ -169,3 +169,7 @@ struct day *planning(struct airline *current_airline) {
 //    current_airline->dbd_calendar = (struct day *) malloc(17 * 7 * sizeof(struct day));
 //    current_airline->dbd_calendar = calendar;
 }
+//void affectation(struct airline *current_airline) //Dans cette fonction les compagnies seront classée par ordre de priorité que les plus prioritaire est leur vols en premier
+//{//d'après l'énoncé
+//
+//}
