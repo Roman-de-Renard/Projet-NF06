@@ -7,6 +7,10 @@ class Plane(ct.Structure):
         ("max_capacity", ct.c_int)
     ]
 
+    def __init__(self, plane_type: str, max_capacity: int):
+        self.plane_type = bytes(plane_type, 'utf-8')
+        self.max_capacity = ct.c_int(max_capacity)
+
     def __repr__(self):
         face = "{}, capacite max {}".format(self.plane_type, self.max_capacity)
         return face
@@ -21,6 +25,15 @@ class Flight(ct.Structure):
         ("min_capacity", ct.c_int),
         ("max_capacity", ct.c_int)
     ]
+
+    def __init__(self, number: str, departure_city: str, arrival_city: str,
+                 attributed_plane: Plane, min_capacity: int, max_capacity: int):
+        self.number = bytes(number, 'utf-8')
+        self.departure_city = bytes(departure_city, 'utf-8')
+        self.arrival_city = bytes(arrival_city, 'utf-8')
+        self.attributed_plane = attributed_plane
+        self.min_capacity = ct.c_int(min_capacity)
+        self.max_capacity = ct.c_int(max_capacity)
 
     def __str__(self):
         face = "Vol {}, au depart de {} et arrivant a {}, dans un {} et avec une capacite de {} a {} passagers.".format(
@@ -59,6 +72,18 @@ class Route(ct.Structure):
         ("max_capacity", ct.c_int)
     ]
 
+    def __init__(self, frequency: int, possible_planes: list, departure_city: str,
+                 arrival_city: str, min_capacity: int, max_capacity: int):
+        self.frequency = ct.c_int(frequency)
+        self.number_of_possible_planes = ct.c_int(len(possible_planes))
+        self.possible_planes = (Plane * len(possible_planes))()
+        for i, elem in enumerate(possible_planes):
+            self.possible_planes[i] = elem
+        self.departure_city = bytes(departure_city, 'utf-8')
+        self.arrival_city = bytes(arrival_city, 'utf-8')
+        self.min_capacity = ct.c_int(min_capacity)
+        self.max_capacity = ct.c_int(max_capacity)
+
 
 class Airline(ct.Structure):
     _fields_ = [
@@ -70,3 +95,21 @@ class Airline(ct.Structure):
         ("priority", ct.c_int),
         ("dbd_calendar", ct.POINTER(Day))
     ]
+
+    def __init__(self, name: str, route_list: list, fleet: list, priority: int, dbd_calendar: list = None):
+        self.name = bytes(name, 'utf-8')
+        self.number_of_route = ct.c_int(len(route_list))
+        self.route_list = (Route * len(route_list))()
+        for i, elem in enumerate(route_list):
+            self.route_list[i] = elem
+        self.size_of_fleet = ct.c_int(len(fleet))
+        self.fleet = (Plane * len(fleet))()
+        for i, elem in enumerate(fleet):
+            self.fleet[i] = elem
+        self.priority = ct.c_int(priority)
+        if dbd_calendar:
+            self.dbd_calendar = (Day * (17 * 7))()
+            for i, elem in enumerate(dbd_calendar):
+                self.dbd_calendar[i] = elem
+        else:
+            self.dbd_calendar = ct.pointer(Day())

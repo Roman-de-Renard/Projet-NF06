@@ -55,32 +55,19 @@ if __name__ == '__main__':
     # print("Wesh alors")
     # print("Salut c'est moi, tchoupi")
     # c_lib.print_hello()
-    planes = [Plane(b"Airbus A320", ct.c_int(258)),  # Les Plane qui existent (PAS UN ARGUMENT)
-              Plane(b"Boeing 747", ct.c_int(182)),
-              Plane(b"Airbus A380", ct.c_int(300)),
-              Plane(b"Boeing 737", ct.c_int(155)),
-              Plane(b"Cessna", ct.c_int(6))]  # b"foo" allows to convert the string into a bytes object
-
-    c_planes = (Plane * len(planes))()
-    for i, elem in enumerate(planes):
-        c_planes[i] = elem
-    cities = [b"Paris", b"Tokyo", b"London", b"Troyes"]
-    c_cities = (ct.c_char_p * len(cities))()
-    for i, elem in enumerate(cities):
-        c_cities[i] = elem
+    planes = [Plane("Airbus A320", 258),
+              Plane("Boeing 747", 182),
+              Plane("Airbus A380", 300),
+              Plane("Boeing 737", 155),
+              Plane("Cessna", 6)]
+    cities = ["Paris", "Tokyo", "London", "Troyes"]
     routes = [
-        Route(0, 2, (Plane * 2)(c_planes[1], c_planes[3]), c_cities[0], c_cities[3],
-              ct.c_int(150), ct.c_int(200)),
-        Route(1, 1, (Plane * 1)(c_planes[3]), c_cities[1], c_cities[0],
-              ct.c_int(250), ct.c_int(290)),
-        Route(2, 3, (Plane * 3)(c_planes[4], c_planes[1], c_planes[3]), c_cities[0],
-              c_cities[3], ct.c_int(2), ct.c_int(5))
+        Route(0, [planes[1], planes[3]], cities[0], cities[3], 150, 200),
+        Route(1, [planes[3]], cities[1], cities[0], 250, 290),
+        Route(2, [planes[4], planes[1], planes[3]], cities[0],
+              cities[3], 2, 5)
     ]
-    c_routes = (Route * len(routes))()
-    for i, elem in enumerate(routes):
-        c_routes[i] = elem
-    test_airline = Airline(b"WTF Airways", ct.c_int(3), c_routes, ct.c_int(5), c_planes, ct.c_int(3),
-                           ct.pointer(Day()))
-    calendar = c_lib.planning(ct.byref(test_airline))
+    test_airline = Airline("WTF Airways", routes, planes, 3)
+    calendar = c_lib.planning(ct.pointer(test_airline))
     for i in range(17 * 7):
-        print(i, " : ", calendar[i])
+        print(i, " : ", test_airline.dbd_calendar[i])
