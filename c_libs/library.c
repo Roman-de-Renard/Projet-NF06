@@ -98,7 +98,10 @@ struct day* planning(struct airline *current_airline) {
         calendar[j].flights_of_the_day = (struct flight *) malloc(4 * sizeof(struct flight));
         calendar[j].number_of_available_planes = current_airline->size_of_fleet;
         calendar[j].available_planes = (struct plane *) malloc(calendar[j].number_of_available_planes * sizeof(struct plane));
-        calendar[j].available_planes = current_airline->fleet;
+        for(k = 0; k < calendar[j].number_of_available_planes; k++) {
+            calendar[j].available_planes[k] = current_airline->fleet[k];
+        }
+//        calendar[j].available_planes = current_airline->fleet;
         calendar[j].number_of_planned_flights = 0;
     }
 
@@ -123,7 +126,7 @@ struct day* planning(struct airline *current_airline) {
         }
         //Choix du jour de départ
         int start_day = 0;
-        for (j = 0; j < day_interval; j++) { // Pour les 30 premiers jours
+        for (j = 0; j < day_interval; j++) { // Pour les day_interval premiers jours
             if (calendar[j].number_of_planned_flights < calendar[start_day].number_of_planned_flights) {
                 start_day = j;
             }
@@ -158,7 +161,7 @@ struct day* planning(struct airline *current_airline) {
 //                    calendar[j].available_planes = (struct plane *) realloc(calendar[j].available_planes, calendar[j].number_of_available_planes * sizeof(struct plane));
                     calendar[j].number_of_planned_flights += 1;
                 }
-                else{printf("Echec de l'attribution d'avion");}
+                else{printf("Jour %d : Echec de l'attribution d'avion\n", j);}
             }
         }
     }
