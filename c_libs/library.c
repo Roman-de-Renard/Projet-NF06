@@ -47,12 +47,12 @@ struct airline{
     struct plane *fleet;
     int priority; // Allows for prioritisation of certain airlines
     struct day *dbd_calendar;
-
 };
 
 
 struct gate{
-    int *availability[24];
+    int availability[(17*7)][24];
+    struct flight* assigned_flights[(17*7)][24]; // On aura 2 fois le meme pointeur sur les 2 heures consécutives (permet des 9-11 par exemple)
 };
 
 
@@ -98,11 +98,11 @@ int min(int x, int y)
 
 struct day* planning(struct airline *current_airline) {
     int i, j, k;
-    struct day *calendar = (struct day *) malloc(7 * 17 * sizeof(struct day));
+    struct day *calendar = malloc(7 * 17 * sizeof(struct day));
     for (j = 0; j < 17 * 7; j++) {
-        calendar[j].flights_of_the_day = (struct flight *) malloc(4 * sizeof(struct flight));
+        calendar[j].flights_of_the_day = malloc(4 * sizeof(struct flight));
         calendar[j].number_of_available_planes = current_airline->size_of_fleet;
-        calendar[j].available_planes = (struct plane *) malloc(calendar[j].number_of_available_planes * sizeof(struct plane));
+        calendar[j].available_planes = malloc(calendar[j].number_of_available_planes * sizeof(struct plane));
         for(k = 0; k < calendar[j].number_of_available_planes; k++) {
             calendar[j].available_planes[k] = current_airline->fleet[k];
         }
@@ -140,7 +140,7 @@ struct day* planning(struct airline *current_airline) {
             if (calendar[j].number_of_planned_flights < 4 && calendar[j].number_of_available_planes >= 1) { // Si on a pas deja 4 vols et qu'on a au moins un avion dispo
                 // Choix de l'avion
                 struct plane attributed_plane;
-                attributed_plane.plane_type = (char *) malloc(128 * sizeof(char));
+                attributed_plane.plane_type = malloc(128 * sizeof(char));
                 attributed_plane.max_capacity = 0;
                 int chosen_plane_index; // For deletion in available_planes
                 for (k = 0; k < calendar[j].number_of_available_planes; k++) {
@@ -153,9 +153,9 @@ struct day* planning(struct airline *current_airline) {
                 if (attributed_plane.max_capacity != 0) { // Si on a reussi a attribuer un avion
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].attributed_plane = attributed_plane;
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].min_capacity = current_airline->route_list[i].min_capacity;
-                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city = (char *) malloc(128 * sizeof(char));
+                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city = malloc(128 * sizeof(char));
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city = current_airline->route_list[i].departure_city;
-                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].arrival_city = (char *) malloc(128 * sizeof(char));
+                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].arrival_city = malloc(128 * sizeof(char));
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].arrival_city = current_airline->route_list[i].arrival_city;
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].max_capacity = min(current_airline->route_list->max_capacity, attributed_plane.max_capacity);
                     sprintf(calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].number, "%c%c%03d%d", current_airline->name[0], current_airline->name[1], j, calendar[j].number_of_planned_flights);
@@ -170,7 +170,20 @@ struct day* planning(struct airline *current_airline) {
             }
         }
     }
-    current_airline->dbd_calendar = (struct day *) malloc(17 * 7 * sizeof(struct day));
+    current_airline->dbd_calendar = malloc(17 * 7 * sizeof(struct day));
     current_airline->dbd_calendar = calendar;
     return calendar;
+}
+
+struct gate *gate_assignment(int n_of_airlines, struct airline* *airlines, int n_of_gates, struct gate* gates){
+    int i, j, k;
+    for(i = 0; i < n_of_gates; i++){
+        for(j = 0; j < 17*7; j++){
+            for(k=0; k < 24; k++){
+                gates[i].availability[j][k] = 1;
+                printf("Occupied gate %d on day %d hour %d\n", i, j, k);
+            }
+        }
+    }
+    return gates;
 }

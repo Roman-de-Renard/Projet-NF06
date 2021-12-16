@@ -26,14 +26,14 @@ class Flight(ct.Structure):
         ("max_capacity", ct.c_int)
     ]
 
-    def __init__(self, number: str, departure_city: str, arrival_city: str,
-                 attributed_plane: Plane, min_capacity: int, max_capacity: int):
-        self.number = bytes(number, 'utf-8')
-        self.departure_city = bytes(departure_city, 'utf-8')
-        self.arrival_city = bytes(arrival_city, 'utf-8')
-        self.attributed_plane = attributed_plane
-        self.min_capacity = ct.c_int(min_capacity)
-        self.max_capacity = ct.c_int(max_capacity)
+    # def __init__(self, number: str, departure_city: str, arrival_city: str,
+    #              attributed_plane: Plane, min_capacity: int, max_capacity: int):
+    #     self.number = bytes(number, 'utf-8')
+    #     self.departure_city = bytes(departure_city, 'utf-8')
+    #     self.arrival_city = bytes(arrival_city, 'utf-8')
+    #     self.attributed_plane = attributed_plane
+    #     self.min_capacity = ct.c_int(min_capacity)
+    #     self.max_capacity = ct.c_int(max_capacity)
 
     def __str__(self):
         face = "Vol {}, au depart de {} et arrivant a {}, dans un {} et avec une capacite de {} a {} passagers.".format(
@@ -113,3 +113,26 @@ class Airline(ct.Structure):
                 self.dbd_calendar[i] = elem
         else:
             self.dbd_calendar = ct.pointer(Day())
+
+
+class Gate(ct.Structure):
+    _fields_ = [
+        ("availability", ct.POINTER(ct.POINTER(ct.c_int))),
+        ("assigned_flights", ct.POINTER(ct.POINTER(Flight)))
+    ]
+
+    def __init__(self, availability: list = None, assigned_flights: list = None):
+        if not availability:
+            availability = [[0] * 24] * (17*7)
+        if not assigned_flights:
+            assigned_flights = [[Flight()] * 24] * (17*7)
+        self.availability = (ct.POINTER(ct.c_int) * (17*7))()
+        self.assigned_flights = (ct.POINTER(Flight) * (17*7))()
+        for i in range(17*7):
+            self.availability[i] = (ct.c_int * 24)()
+            self.assigned_flights[i] = (Flight * 24)()
+            for j in range(24):
+                self.availability[i][j] = availability[i][j]
+                self.assigned_flights[i][j] = assigned_flights[i][j]
+        # print("Created gate")
+
