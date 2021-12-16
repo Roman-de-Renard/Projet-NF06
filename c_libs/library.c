@@ -194,6 +194,11 @@ struct gate *gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                 gates[gate_ind].assigned_flights[j][h]=&airlines->dbd_calendar[j].flights_of_the_day[k];
                 if (gates[gate_ind].availability[j][h]==1){
                     gate_ind+=1;
+                    if (h==24 && gate_ind==n_of_gates){
+                        for (k=k; k<airlines->dbd_calendar[j].number_of_planned_flights-1;k++){
+                            airlines->dbd_calendar[j].flights_of_the_day[k]=airlines->dbd_calendar[j].flights_of_the_day[k+1];
+                        }
+                    }
                     if(gate_ind==n_of_gates){
                         h+=1;
                         gate_ind=0;
