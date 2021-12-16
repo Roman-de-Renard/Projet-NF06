@@ -188,18 +188,19 @@ struct gate *gate_assignment(int n_of_airlines, struct airline *airlines, int n_
     for (i = 0; i < n_of_airlines; i++) {
         for (j = 0; j < 17 * 7; j++) {
             h = 0;
-            gate_ind=0;
+            gate_ind = 0;
             for (k = 0; k < airlines->dbd_calendar[j].number_of_planned_flights; k++) {
-                gates[gate_ind].availability[j][h]=1;
-                gates[gate_ind].assigned_flights[j][h]=&airlines->dbd_calendar[j].flights_of_the_day[k];
-                if (gates[gate_ind].availability[j][h]==1){
-                    gate_ind+=1;
-                    if(gate_ind==n_of_gates){
-                        h+=1;
-                        gate_ind=0;
-                        if (h==25){
-                            for (k=k; k<airlines->dbd_calendar[j].number_of_planned_flights-1;k++){
-                                airlines->dbd_calendar[j].flights_of_the_day[k]=airlines->dbd_calendar[j].flights_of_the_day[k+1];
+                gates[gate_ind].availability[j][h] = 1;
+                gates[gate_ind].assigned_flights[j][h] = &airlines->dbd_calendar[j].flights_of_the_day[k];
+                if (gates[gate_ind].availability[j][h] == 1) {
+                    gate_ind += 1;
+                    if (gate_ind == n_of_gates) {
+                        h += 1;
+                        gate_ind = 0;
+                        if (h == 25) {
+                            for (k = k; k < airlines->dbd_calendar[j].number_of_planned_flights - 1; k++) {
+                                airlines->dbd_calendar[j].flights_of_the_day[k] = airlines->dbd_calendar[j].flights_of_the_day[
+                                        k + 1];
                             }
                         }
 
@@ -207,9 +208,9 @@ struct gate *gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                 }
             }
         }
-        for (i=0; i<n_of_gates;i++){
-            for(j = 0; j < 17*7; j++){
-                for(k=0; k < 24; k++){
+        for (i = 0; i < n_of_gates; i++) {
+            for (j = 0; j < 17 * 7; j++) {
+                for (k = 0; k < 24; k++) {
                     if (gates[i].availability[j][k] == 1)
                         printf("Occupied gate %d on day %d hour %d\n", i, j, k);
                 }
