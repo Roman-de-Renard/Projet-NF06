@@ -26,6 +26,5 @@ int min(int x, int y);
 
 struct day* planning(struct airline *current_airline);
 
-void gate_assignment(int n_of_airlines, struct airline* *airlines, int n_of_gates, struct gate* *gates);
-
+struct gate *gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates);
 #endif //PROJET_NF06_LIBRARY_H
