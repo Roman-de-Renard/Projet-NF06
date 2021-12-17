@@ -159,10 +159,12 @@ struct day *planning(struct airline *current_airline) {
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].min_capacity = current_airline->route_list[i].min_capacity;
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city = malloc(
                             128 * sizeof(char));
-                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city = current_airline->route_list[i].departure_city;
+                    strcpy(calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city, current_airline->route_list[i].departure_city);
+//                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city = current_airline->route_list[i].departure_city;
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].arrival_city = malloc(
                             128 * sizeof(char));
-                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].arrival_city = current_airline->route_list[i].arrival_city;
+                    strcpy(calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].arrival_city, current_airline->route_list[i].arrival_city);
+//                    calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].arrival_city = current_airline->route_list[i].arrival_city;
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].max_capacity = min(
                             current_airline->route_list->max_capacity, attributed_plane.max_capacity);
                     sprintf(calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].number, "%c%c%03d%d",
@@ -183,30 +185,32 @@ struct day *planning(struct airline *current_airline) {
     return calendar;
 }
 
-struct gate *gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates) {
+struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates) {
     int i, j, k, h, gate_ind;
-    for (i = 0; i < n_of_airlines; i++) {
-        for (j = 0; j < 17 * 7; j++) {
+    for (i = 0; i < n_of_airlines; i++) { // Pour chaque airline
+        for (j = 0; j < 17 * 7; j++) { // Pour chaque jour
             h = 0;
             gate_ind = 0;
-            for (k = 0; k < airlines->dbd_calendar[j].number_of_planned_flights; k++) {
-                if (gates[gate_ind].availability[j][h] == 0) {
+            for (k = 0; k < airlines->dbd_calendar[j].number_of_planned_flights; k++) { // Pour chaque vol :
+                if (gates[gate_ind].availability[j][h] == 0) { // Si la h-ieme heure est libre
+                    gates[gate_ind].assigned_flights[j][h] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
+                    gates[gate_ind].assigned_flights[j][h + 1] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
                     gates[gate_ind].availability[j][h] = 1;
-                    gates[gate_ind].assigned_flights[j][h] = &airlines->dbd_calendar[j].flights_of_the_day[k];
+                    gates[gate_ind].availability[j][h + 1] = 1;
                 }
-                else {
-                    gate_ind += 1;
-                    if (gate_ind == n_of_gates+1) {
+                else { // Si le creneau est occupe
+                    gate_ind += 1; // On regarde a la porte suivante
+                    if (gate_ind == n_of_gates) { // Si c'est la porte max
                         h += 1;
                         gate_ind = 0;
-                        if (h == 25) {
-                            for (k = k; k < airlines->dbd_calendar[j].number_of_planned_flights - 1; k++) {
-                                airlines->dbd_calendar[j].flights_of_the_day[k] = airlines->dbd_calendar[j].flights_of_the_day[
-                                        k + 1];
-                                airlines->dbd_calendar[j].number_of_planned_flights -= 1;
+                        if (h == 25) { // Si c'est l'heure max
+                            int n;
+                            for (n = k; n < airlines->dbd_calendar[j].number_of_planned_flights - 1; n++) {
+                                airlines[i].dbd_calendar[j].flights_of_the_day[n] = airlines->dbd_calendar[j].flights_of_the_day[
+                                        n + 1];
+                                airlines[i].dbd_calendar[j].number_of_planned_flights -= 1;
                             }
                         }
-
                     }
                 }
             }
