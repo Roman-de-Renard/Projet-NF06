@@ -190,17 +190,20 @@ struct gate *gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             h = 0;
             gate_ind = 0;
             for (k = 0; k < airlines->dbd_calendar[j].number_of_planned_flights; k++) {
-                gates[gate_ind].availability[j][h] = 1;
-                gates[gate_ind].assigned_flights[j][h] = &airlines->dbd_calendar[j].flights_of_the_day[k];
-                if (gates[gate_ind].availability[j][h] == 1) {
+                if (gates[gate_ind].availability[j][h] == 0) {
+                    gates[gate_ind].availability[j][h] = 1;
+                    gates[gate_ind].assigned_flights[j][h] = &airlines->dbd_calendar[j].flights_of_the_day[k];
+                }
+                else {
                     gate_ind += 1;
-                    if (gate_ind == n_of_gates) {
+                    if (gate_ind == n_of_gates+1) {
                         h += 1;
                         gate_ind = 0;
                         if (h == 25) {
                             for (k = k; k < airlines->dbd_calendar[j].number_of_planned_flights - 1; k++) {
                                 airlines->dbd_calendar[j].flights_of_the_day[k] = airlines->dbd_calendar[j].flights_of_the_day[
                                         k + 1];
+                                airlines->dbd_calendar[j].number_of_planned_flights -= 1;
                             }
                         }
 
