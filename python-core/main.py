@@ -76,12 +76,14 @@ if __name__ == '__main__':
     empty_availability = [[0] * 24] * NB_DAYS
     empty_flights = [[Flight()] * 24] * NB_DAYS
     Gate_0 = Gate()
-    Gate_0.availability = ct.POINTER(ct.POINTER(ct.c_int))
-    for i, elem in enumerate(empty_availability):
-        Gate_0.availability[i] = elem
+    Gate_0.availability = (ct.POINTER(ct.c_int) * NB_DAYS)()
+    for i, day in enumerate(empty_availability):
+        Gate_0.availability[i] = (ct.c_int * 24)()
+        for j, hour in enumerate(day):
+            Gate_0.availability[i][j] = ct.c_int(hour)
     Gate_0.assigned_flights = ((ct.POINTER(Flight * 24)) * NB_DAYS)()
-    for i, elem in enumerate(empty_flights):
-        Gate_0.assigned_flights[i] = elem
+    for i, day in enumerate(empty_flights):
+        Gate_0.assigned_flights[i] = ct.POINTER(Flight * 24)()
     Gate_1 = Gate()
     Gate_1.availability = ct.POINTER(ct.POINTER(ct.c_int))
     for i, elem in enumerate(empty_availability):
