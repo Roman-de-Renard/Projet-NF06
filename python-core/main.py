@@ -1,7 +1,6 @@
 from pathlib import Path
 from c_structures import *
 
-
 NB_DAYS = 17 * 7
 
 
@@ -74,17 +73,29 @@ if __name__ == '__main__':
     test_airlines = [Airline("WTF Airways", routes, planes, 3)
                      ]
     empty_availability = [[0] * 24] * NB_DAYS
-    empty_flights = [[Flight()] * 24] * NB_DAYS
+    empty_flights = [[ct.pointer(Flight())] * 24] * NB_DAYS
     Gate_0 = Gate()
     Gate_0.availability = (ct.POINTER(ct.c_int) * NB_DAYS)()
     for i, day in enumerate(empty_availability):
         Gate_0.availability[i] = (ct.c_int * 24)()
         for j, hour in enumerate(day):
-            Gate_0.availability[i][j] = ct.c_int(hour)
-    Gate_0.assigned_flights = ((ct.POINTER(Flight * 24)) * NB_DAYS)()
+            Gate_0.availability[i][j] = hour
+    Gate_0.assigned_flights = (ct.POINTER(ct.POINTER(Flight)) * NB_DAYS)()
     for i, day in enumerate(empty_flights):
-        Gate_0.assigned_flights[i] = ct.POINTER(Flight * 24)()
-
+        Gate_0.assigned_flights[i] = (ct.POINTER(Flight) * 24)()
+        for j, hour in enumerate(day):
+            Gate_0.assigned_flights[i][j] = hour
+    Gate_1 = Gate()
+    Gate_1.availability = (ct.POINTER(ct.c_int) * NB_DAYS)()
+    for i, day in enumerate(empty_availability):
+        Gate_1.availability[i] = (ct.c_int * 24)()
+        for j, hour in enumerate(day):
+            Gate_1.availability[i][j] = hour
+    Gate_1.assigned_flights = (ct.POINTER(ct.POINTER(Flight)) * NB_DAYS)()
+    for i, day in enumerate(empty_flights):
+        Gate_1.assigned_flights[i] = (ct.POINTER(Flight) * 24)()
+        for j, hour in enumerate(day):
+            Gate_1.assigned_flights[i][j] = hour
     gates = [
         Gate_0,
         Gate_1
@@ -92,6 +103,10 @@ if __name__ == '__main__':
     c_gates = (Gate * len(gates))()
     for i, elem in enumerate(gates):
         c_gates[i] = elem
+    # for i in range(2):
+    #     for j in range(119):
+    #         for k in range(24):
+    #             print("Door: ", i, ", Day: ", j, ", hour: ", k, ", availability: ", c_gates[i].availability[j][k])
     calendar = c_lib.planning(ct.pointer(test_airlines[0]))
     for i in range(17 * 7):
         print(i, " : ", test_airlines[0].dbd_calendar[i])
@@ -99,15 +114,15 @@ if __name__ == '__main__':
     for i, elem in enumerate(test_airlines):
         c_test_airlines[i] = elem
 
-    c_gates = c_lib.gate_assignment(ct.c_int(len(test_airlines)), c_test_airlines, ct.c_int(len(gates)), c_gates)
+    c_gates = c_lib.gate_assignment(ct.c_int(len(test_airlines)), c_test_airlines, ct.c_int(len(gates)),
+                                    c_gates)
     # print(returned_gates[0].availability[27][3])
     for i in range(2):
-        print("Porte {}".format(i))
-        for j in range(17*7):
-            print("     Day {}".format(j))
+        print("Porte",i)
+        for j in range(17 * 7):
+            print("     Day",j)
             for h in range(24):
                 if c_gates[i].availability[j][h] == 0:
-                    print("         Hour {}: Available".format(h))
+                    print("         Hour ", h ,": Available")
                 elif c_gates[i].availability[j][h] == 1:
                     print("         Hour {}: {}".format(h, c_gates[i].assigned_flights[j][h]))
-

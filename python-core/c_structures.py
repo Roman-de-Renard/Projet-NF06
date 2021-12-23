@@ -118,7 +118,7 @@ class Airline(ct.Structure):
 class Gate(ct.Structure):
     _fields_ = [
         ("availability", ct.POINTER(ct.POINTER(ct.c_int))),
-        ("assigned_flights", ct.POINTER(ct.POINTER(Flight)))
+        ("assigned_flights", ct.POINTER(ct.POINTER(ct.POINTER(Flight))))
     ]
 
     # def __init__(self, availability: list = None, assigned_flights: list = None):
