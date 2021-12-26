@@ -1,5 +1,6 @@
 from pathlib import Path
 from c_structures import *
+import pandas
 
 NB_DAYS = 17 * 7
 
@@ -105,18 +106,19 @@ if __name__ == '__main__':
     for i, elem in enumerate(test_airlines):
         c_test_airlines[i] = elem
 
-    c_gates = c_lib.gate_assignment(ct.c_int(len(test_airlines)), c_test_airlines, ct.c_int(len(gates)), c_gates)
+    new_c_gates = c_lib.gate_assignment(ct.c_int(len(test_airlines)), c_test_airlines, ct.c_int(len(gates)), c_gates)
+    print(type(new_c_gates))
     for i in range(2):
         for j in range(119):
             for k in range(24):
-                print("Door: ", i, ", Day: ", j, ", hour: ", k, ", availability: ", c_gates[i].availability[j][k])
-    # print(returned_gates[0].availability[27][3])
+                print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, new_c_gates[i].availability[j][k]))
+    print(new_c_gates[0].availability[27][3])
     # for i in range(2):
-    #     print("Porte",i)
+    #     print("Porte", i)
     #     for j in range(17 * 7):
-    #         print("     Day",j)
+    #         print("     Day", j)
     #         for h in range(24):
     #             if c_gates[i].availability[j][h] == 0:
-    #                 print("         Hour ", h ,": Available")
+    #                 print("         Hour ", h, ": Available")
     #             elif c_gates[i].availability[j][h] == 1:
     #                 print("         Hour {}: {}".format(h, c_gates[i].assigned_flights[j][h]))

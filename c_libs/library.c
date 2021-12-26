@@ -187,24 +187,29 @@ struct day *planning(struct airline *current_airline) {
 
 struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates) {
     int i, j, k, h, gate_ind;
-    for (i = 0; i < n_of_gates; i++) {
-        for (j = 0; j < 119; j++) {
-            for (k = 0; k < 24; k++) {
-                gates[i].availability[j][k]=0;
-//                        printf("gate: %d, day: %d, hour: %d, avaliability: %d\n", i, j, k, gates[i].availability[j][k]);
+
+
+    struct gate *new_gates;
+    new_gates = malloc(n_of_gates*sizeof(struct gate));
+    for (i = 0; i < n_of_gates; i++){
+        for (j = 0; j < 17*7; j++){
+            for (h = 0; h < 24; h++){
+                new_gates[i].availability[j][h] = gates[i].availability[j][h];
+                new_gates[i].assigned_flights[j][h] = gates[i].assigned_flights[j][h];
             }
         }
     }
+
     for (i = 0; i < n_of_airlines; i++) { // Pour chaque airline
         for (j = 0; j < 119; j++) { // Pour chaque jour
             h = 0;
             gate_ind = 0;
             for (k = 0; k < airlines[i].dbd_calendar[j].number_of_planned_flights; k++) { // Pour chaque vol :
-                if (gates[gate_ind].availability[j][h] == 0) { // Si la h-ieme heure est libre
-                    gates[gate_ind].assigned_flights[j][h] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
-                    gates[gate_ind].assigned_flights[j][h + 1] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
-                    gates[gate_ind].availability[j][h] = 1;
-                    gates[gate_ind].availability[j][h + 1] = 1;
+                if (new_gates[gate_ind].availability[j][h] == 0) { // Si la h-ieme heure est libre
+                    new_gates[gate_ind].assigned_flights[j][h] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
+                    new_gates[gate_ind].assigned_flights[j][h + 1] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
+                    new_gates[gate_ind].availability[j][h] = 1;
+                    new_gates[gate_ind].availability[j][h + 1] = 1;
                 } else { // Si le creneau est occupe
                     gate_ind += 1; // On regarde a la porte suivante
                     k -= 1;// pour retester la condition avec le même vol
@@ -224,12 +229,5 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             }
         }
     }
-        struct gate *new_gates;
-        new_gates= malloc(n_of_gates*sizeof (struct gate));
-        for (i=0;i<n_of_gates;i++){
-            new_gates[i]=gates[i];
-        }
-
-
-        return new_gates;
+    return new_gates;
 }
