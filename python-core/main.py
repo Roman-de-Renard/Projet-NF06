@@ -52,12 +52,6 @@ if __name__ == '__main__':
     c_lib.planning.restype = ct.POINTER(Day)
     c_lib.gate_assignment.restype = ct.POINTER(Gate)
     # assign_plane_value(Airline, Flight, Plane)
-    # foo = ct.c_int(3)
-    # bar = ct.c_int(6)
-    # print(c_lib.add_int(foo, bar))
-    # print("Wesh alors")
-    # print("Salut c'est moi, tchoupi")
-    # c_lib.print_hello()
     planes = [Plane("Airbus A320", 258),
               Plane("Boeing 747", 182),
               Plane("Airbus A380", 300),
@@ -103,10 +97,7 @@ if __name__ == '__main__':
     c_gates = (Gate * len(gates))()
     for i, elem in enumerate(gates):
         c_gates[i] = elem
-    # for i in range(2):
-    #     for j in range(119):
-    #         for k in range(24):
-    #             print("Door: ", i, ", Day: ", j, ", hour: ", k, ", availability: ", c_gates[i].availability[j][k])
+
     calendar = c_lib.planning(ct.pointer(test_airlines[0]))
     for i in range(17 * 7):
         print(i, " : ", test_airlines[0].dbd_calendar[i])
@@ -114,15 +105,18 @@ if __name__ == '__main__':
     for i, elem in enumerate(test_airlines):
         c_test_airlines[i] = elem
 
-    c_gates = c_lib.gate_assignment(ct.c_int(len(test_airlines)), c_test_airlines, ct.c_int(len(gates)),
-                                    c_gates)
-    # print(returned_gates[0].availability[27][3])
+    c_gates = c_lib.gate_assignment(ct.c_int(len(test_airlines)), c_test_airlines, ct.c_int(len(gates)), c_gates)
     for i in range(2):
-        print("Porte",i)
-        for j in range(17 * 7):
-            print("     Day",j)
-            for h in range(24):
-                if c_gates[i].availability[j][h] == 0:
-                    print("         Hour ", h ,": Available")
-                elif c_gates[i].availability[j][h] == 1:
-                    print("         Hour {}: {}".format(h, c_gates[i].assigned_flights[j][h]))
+        for j in range(119):
+            for k in range(24):
+                print("Door: ", i, ", Day: ", j, ", hour: ", k, ", availability: ", c_gates[i].availability[j][k])
+    # print(returned_gates[0].availability[27][3])
+    # for i in range(2):
+    #     print("Porte",i)
+    #     for j in range(17 * 7):
+    #         print("     Day",j)
+    #         for h in range(24):
+    #             if c_gates[i].availability[j][h] == 0:
+    #                 print("         Hour ", h ,": Available")
+    #             elif c_gates[i].availability[j][h] == 1:
+    #                 print("         Hour {}: {}".format(h, c_gates[i].assigned_flights[j][h]))

@@ -208,7 +208,7 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                 }
                 else { // Si le creneau est occupe
                     gate_ind += 1; // On regarde a la porte suivante
-                    k-=1;
+                    k-=1;// pour retester la condition avec le même vol
                     if (gate_ind == n_of_gates) { // Si c'est la porte max
                         h += 2;
                         gate_ind = 0;
