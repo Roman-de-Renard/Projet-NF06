@@ -229,5 +229,14 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             }
         }
     }
+    for (i = 0; i < n_of_gates; i++){
+        printf("\n");
+        for (j = 0; j < 17*7; j++){
+            printf("\n");
+            for (h = 0; h < 24; h++){
+                printf("%d ", new_gates[i].availability[j][h]);
+            }
+        }
+    }
     return new_gates;
 }
