@@ -205,10 +205,9 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                     gates[gate_ind].assigned_flights[j][h + 1] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
                     gates[gate_ind].availability[j][h] = 1;
                     gates[gate_ind].availability[j][h + 1] = 1;
-                }
-                else { // Si le creneau est occupe
+                } else { // Si le creneau est occupe
                     gate_ind += 1; // On regarde a la porte suivante
-                    k-=1;// pour retester la condition avec le même vol
+                    k -= 1;// pour retester la condition avec le même vol
                     if (gate_ind == n_of_gates) { // Si c'est la porte max
                         h += 2;
                         gate_ind = 0;
@@ -224,14 +223,13 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                 }
             }
         }
-//        for (i = 0; i < n_of_gates; i++) {
-//            for (j = 0; j < 17 * 7; j++) {
-//                for (k = 0; k < 24; k++) {
-//                    if (gates[i].availability[j][k] == 1)
-//                        printf("Occupied gate %d on day %d hour %d\n", i, j, k);
-//                }
-//            }
-//        }
-        }
-        return gates;
     }
+        struct gate *new_gates;
+        new_gates= malloc(n_of_gates*sizeof (struct gate));
+        for (i=0;i<n_of_gates;i++){
+            new_gates[i]=gates[i];
+        }
+
+
+        return new_gates;
+}
