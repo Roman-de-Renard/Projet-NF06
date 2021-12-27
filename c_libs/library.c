@@ -187,8 +187,6 @@ struct day *planning(struct airline *current_airline) {
 
 struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates) {
     int i, j, k, h, gate_ind;
-
-
     struct gate *new_gates;
     new_gates = malloc(n_of_gates*sizeof(struct gate));
     for (i = 0; i < n_of_gates; i++){

@@ -1,6 +1,7 @@
 from pathlib import Path
 from c_structures import *
-import pandas
+
+# import pandas
 
 NB_DAYS = 17 * 7
 
@@ -51,6 +52,7 @@ if __name__ == '__main__':
     c_lib = open_dll()
     c_lib.planning.argtypes = [ct.POINTER(Airline)]
     c_lib.planning.restype = ct.POINTER(Day)
+    c_lib.gate_assignment.argtypes = (ct.c_long, ct.POINTER(Airline), ct.c_long, ct.POINTER(Gate))
     c_lib.gate_assignment.restype = ct.POINTER(Gate)
     # assign_plane_value(Airline, Flight, Plane)
     planes = [Plane("Airbus A320", 258),
@@ -67,8 +69,8 @@ if __name__ == '__main__':
     ]
     test_airlines = [Airline("WTF Airways", routes, planes, 3)
                      ]
-    empty_availability = [[0] * 24] * NB_DAYS
-    empty_flights = [[ct.pointer(Flight())] * 24] * NB_DAYS
+    empty_availability = [[0] * 24 for i in range(NB_DAYS)]
+    empty_flights = [[ct.pointer(Flight())] * 24 for i in range(NB_DAYS)]
     Gate_0 = Gate()
     Gate_0.availability = (ct.POINTER(ct.c_int) * NB_DAYS)()
     for i, day in enumerate(empty_availability):
@@ -95,24 +97,17 @@ if __name__ == '__main__':
         Gate_0,
         Gate_1
     ]
-    c_gates = (Gate * len(gates))()
-    for i, elem in enumerate(gates):
-        c_gates[i] = elem
-
+    c_gates = (Gate * len(gates))(*gates)
     calendar = c_lib.planning(ct.pointer(test_airlines[0]))
     for i in range(17 * 7):
         print(i, " : ", test_airlines[0].dbd_calendar[i])
-    c_test_airlines = (Airline * len(test_airlines))()
-    for i, elem in enumerate(test_airlines):
-        c_test_airlines[i] = elem
-
-    new_c_gates = c_lib.gate_assignment(ct.c_int(len(test_airlines)), c_test_airlines, ct.c_int(len(gates)), c_gates)
+    c_test_airlines = (Airline * len(test_airlines))(*test_airlines)
+    new_c_gates = c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
     print(type(new_c_gates))
-    for i in range(2):
-        for j in range(119):
-            for k in range(24):
-                print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, new_c_gates[i].availability[j][k]))
-    print(new_c_gates[0].availability[27][3])
+    # for i in range(2):
+    #     for j in range(119):
+    #         for k in range(24):
+    #             print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, new_c_gates[i].availability[j][k]))
     # for i in range(2):
     #     print("Porte", i)
     #     for j in range(17 * 7):
