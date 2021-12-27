@@ -194,6 +194,7 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             for (h = 0; h < 24; h++){
                 new_gates[i].availability[j][h] = gates[i].availability[j][h];
                 new_gates[i].assigned_flights[j][h] = gates[i].assigned_flights[j][h];
+
             }
         }
     }

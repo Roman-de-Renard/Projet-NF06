@@ -70,7 +70,7 @@ if __name__ == '__main__':
     test_airlines = [Airline("WTF Airways", routes, planes, 3)
                      ]
     empty_availability = [[0] * 24 for i in range(NB_DAYS)]
-    empty_flights = [[ct.pointer(Flight())] * 24 for i in range(NB_DAYS)]
+    empty_flights = [[ct.pointer(Flight()) for _ in range(24)] for _ in range(NB_DAYS)]
     Gate_0 = Gate()
     Gate_0.availability = (ct.POINTER(ct.c_int) * NB_DAYS)()
     for i, day in enumerate(empty_availability):
@@ -103,17 +103,8 @@ if __name__ == '__main__':
         print(i, " : ", test_airlines[0].dbd_calendar[i])
     c_test_airlines = (Airline * len(test_airlines))(*test_airlines)
     new_c_gates = c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
-    print(type(new_c_gates))
-    # for i in range(2):
-    #     for j in range(119):
-    #         for k in range(24):
-    #             print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, new_c_gates[i].availability[j][k]))
-    # for i in range(2):
-    #     print("Porte", i)
-    #     for j in range(17 * 7):
-    #         print("     Day", j)
-    #         for h in range(24):
-    #             if c_gates[i].availability[j][h] == 0:
-    #                 print("         Hour ", h, ": Available")
-    #             elif c_gates[i].availability[j][h] == 1:
-    #                 print("         Hour {}: {}".format(h, c_gates[i].assigned_flights[j][h]))
+    print(type(c_gates))
+    for i in range(2): #on vérifie que la fonction renvoi bien les information en python
+        for j in range(119):
+            for k in range(24):
+                print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, new_c_gates[i].availability[j][k]))
