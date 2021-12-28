@@ -1,11 +1,12 @@
 from c_structures import *
 from constants import *
 import pandas as pd
+
 pd.options.display.max_rows = 9999
 pd.options.display.max_columns = 9999
 
 
-def frame_planned_flights(calendar: ct.POINTER(Day), tocsv: bool=False, filename: str="") -> pd.DataFrame:
+def frame_planned_flights(calendar: ct.POINTER(Day), tocsv: bool = False, filename: str = "") -> pd.DataFrame:
     planned_flights = {
         "day": [],
         "number": [],
