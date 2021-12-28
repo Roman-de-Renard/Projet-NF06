@@ -1,9 +1,7 @@
 from pathlib import Path
 from c_structures import *
-
-# import pandas
-
-NB_DAYS = 17 * 7
+import ui_functions
+from constants import *
 
 
 def open_dll(name='libc_libs.dll'):
@@ -99,12 +97,14 @@ if __name__ == '__main__':
     ]
     c_gates = (Gate * len(gates))(*gates)
     calendar = c_lib.planning(ct.pointer(test_airlines[0]))
-    for i in range(17 * 7):
-        print(i, " : ", test_airlines[0].dbd_calendar[i])
-    c_test_airlines = (Airline * len(test_airlines))(*test_airlines)
-    new_c_gates = c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
-    print(type(c_gates))
-    for i in range(2): #on vérifie que la fonction renvoi bien les information en python
-        for j in range(119):
-            for k in range(24):
-                print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, new_c_gates[i].availability[j][k]))
+    print(ui_functions.frame_planned_flights(calendar, True, "D:/Documents/NF06/Projet-NF06/calendarCSV.csv"))
+
+    # for i in range(17 * 7):
+    #     print(i, " : ", test_airlines[0].dbd_calendar[i])
+    # c_test_airlines = (Airline * len(test_airlines))(*test_airlines)
+    # new_c_gates = c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
+    # print(type(c_gates))
+    # for i in range(2): #on vérifie que la fonction renvoi bien les information en python
+    #     for j in range(119):
+    #         for k in range(24):
+    #             print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, new_c_gates[i].availability[j][k]))
