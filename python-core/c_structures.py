@@ -121,18 +121,18 @@ class Gate(ct.Structure):
         ("assigned_flights", ct.POINTER(ct.POINTER(ct.POINTER(Flight))))
     ]
 
-    # def __init__(self, availability: list = None, assigned_flights: list = None):
-    #     if not availability:
-    #         availability = [[0] * 24] * (17*7)
-    #     if not assigned_flights:
-    #         assigned_flights = [[Flight()] * 24] * (17*7)
-    #
-    #     self.availability = (ct.POINTER(ct.c_int) * (17*7))()
-    #     self.assigned_flights = (ct.POINTER(Flight) * (17*7))()
-    #     for i in range(17*7):
-    #         self.availability[i] = (ct.c_int * 24)()
-    #         self.assigned_flights[i] = (Flight * 24)()
-    #         for j in range(24):
-    #             self.availability[i][j] = availability[i][j]
-    #             self.assigned_flights[i][j] = assigned_flights[i][j]
-    #     # print("Created gate")
+    def __init__(self, availability: list = None, assigned_flights: list = None):
+        if not availability:
+            availability = [[ct.c_int(0)] * 24 for i in range(17*7)]
+        if not assigned_flights:
+            assigned_flights = [[ct.pointer(Flight())] * 24 for i in range(17*7)]
+
+        self.availability = (ct.POINTER(ct.c_int) * (17*7))()
+        self.assigned_flights = (ct.POINTER(ct.POINTER(Flight)) * (17*7))()
+        for i in range(17*7):
+            self.availability[i] = (ct.c_int * 24)()
+            self.assigned_flights[i] = (ct.POINTER(Flight) * 24)()
+            for j in range(24):
+                self.availability[i][j] = availability[i][j]
+                self.assigned_flights[i][j] = assigned_flights[i][j]
+        # print("Created gate")
