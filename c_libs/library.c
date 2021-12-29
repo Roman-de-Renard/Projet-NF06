@@ -203,7 +203,7 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             h = 0;
             gate_ind = 0;
             for (k = 0; k < airlines[i].dbd_calendar[j].number_of_planned_flights; k++) { // Pour chaque vol :
-                if (new_gates[gate_ind].availability[j][h] == 0) { // Si la h-ieme heure est libre
+                if (new_gates[gate_ind].availability[j][h] !=1) { // Si la h-ieme heure est libre
                     new_gates[gate_ind].assigned_flights[j][h] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
                     new_gates[gate_ind].assigned_flights[j][h + 1] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
                     new_gates[gate_ind].availability[j][h] = 1;
@@ -214,7 +214,7 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                     if (gate_ind == n_of_gates) { // Si c'est la porte max
                         h += 2;
                         gate_ind = 0;
-                        if (h == 24) { // Si c'est l'heure max
+                        if (h == 25) { // Si c'est l'heure max
                             int n;
                             for (n = k; n < airlines->dbd_calendar[j].number_of_planned_flights - 1; n++) {
                                 airlines[i].dbd_calendar[j].flights_of_the_day[n] = airlines->dbd_calendar[j].flights_of_the_day[
