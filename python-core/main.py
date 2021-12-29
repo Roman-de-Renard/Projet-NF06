@@ -74,8 +74,18 @@ if __name__ == '__main__':
     for i in range(17 * 7):
         print(i, " : ", test_airlines[0].dbd_calendar[i])
 
-    # ---------------Test run of data_management.frame_planned_flights---------------
-    print(data_management.frame_planned_flights(calendar, True, "D:/Documents/NF06/Projet-NF06/planning.csv"))
+    # ---------------Test run of data_management---------------
+    calendar_flights_dataframe = data_management.frame_planned_flights(calendar, True,
+                                                                       "D:/Documents/NF06/Projet-NF06/planning.csv")
+    calendar_planes_dataframe = data_management\
+        .frame_available_planes(calendar, True, "D:/Documents/NF06/Projet-NF06/available_planes.csv")
+    print(calendar_flights_dataframe)
+    print("\n" + str(calendar_flights_dataframe.dtypes))
+    print(calendar_planes_dataframe)
+    print("\n" + str(len(calendar_planes_dataframe.index)))
+    """
+    calendar2 = data_management.calendar_from_dataframes(calendar_flights_dataframe, calendar_planes_dataframe)
+    print(calendar2)"""
 
     # # ---------------Creation of objects necessary for test of gate assignment----------------
     # empty_availability = [[0] * 24 for i in range(NB_DAYS)]
