@@ -72,7 +72,8 @@ if __name__ == '__main__':
 
 
     # ---------------Test run of c_lib.planning---------------
-    calendar = c_lib.planning(ct.pointer(test_airlines[0]))
+    for i in range(len(test_airlines)):
+        calendar = c_lib.planning(ct.pointer(test_airlines[i]))
     for i in range(17 * 7):
         print(i, " : ", test_airlines[0].dbd_calendar[i])
 
