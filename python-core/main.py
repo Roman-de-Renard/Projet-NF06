@@ -66,8 +66,10 @@ if __name__ == '__main__':
         Route(2, [planes[4], planes[1], planes[3]], cities[0],
               cities[3], 2, 5)
     ]
-    test_airlines = [Airline("WTF Airways", routes, planes, 3)
+    test_airlines = [Airline("WTF Airways", routes, planes, 1), Airline("SHIT", routes, planes, 3)
                      ]
+    test_airlines.sort()
+
 
     # ---------------Test run of c_lib.planning---------------
     calendar = c_lib.planning(ct.pointer(test_airlines[0]))
@@ -100,7 +102,7 @@ if __name__ == '__main__':
     # ---------------Test run of c_lib.gate_assignment---------------
     c_gates = c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
     print(type(c_gates))
-    for i in range(2): #on vérifie que la fonction renvoie bien les information en python
+    for i in range(2):  # on vérifie que la fonction renvoie bien les information en python
         for j in range(119):
             for k in range(24):
                 print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, c_gates[i].availability[j][k]))
