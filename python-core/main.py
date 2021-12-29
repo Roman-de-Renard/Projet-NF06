@@ -79,13 +79,8 @@ if __name__ == '__main__':
                                                                        "D:/Documents/NF06/Projet-NF06/planning.csv")
     calendar_planes_dataframe = data_management\
         .frame_available_planes(calendar, True, "D:/Documents/NF06/Projet-NF06/available_planes.csv")
-    print(calendar_flights_dataframe)
-    print("\n" + str(calendar_flights_dataframe.dtypes))
-    print(calendar_planes_dataframe)
-    print("\n" + str(len(calendar_planes_dataframe.index)))
-    """
     calendar2 = data_management.calendar_from_dataframes(calendar_flights_dataframe, calendar_planes_dataframe)
-    print(calendar2)"""
+    print(calendar2)
 
     # # ---------------Creation of objects necessary for test of gate assignment----------------
     # empty_availability = [[0] * 24 for i in range(NB_DAYS)]
