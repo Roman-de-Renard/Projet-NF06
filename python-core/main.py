@@ -85,45 +85,9 @@ if __name__ == '__main__':
     calendar2 = data_management.calendar_from_dataframes(calendar_flights_dataframe, calendar_planes_dataframe)
     print(calendar2)
 
-    # # ---------------Creation of objects necessary for test of gate assignment----------------
-    # empty_availability = [[0] * 24 for i in range(NB_DAYS)]
-    # empty_flights = [[ct.pointer(Flight()) for _ in range(24)] for _ in range(NB_DAYS)]
-    # Gate_0 = Gate()
-    # Gate_0.availability = (ct.POINTER(ct.c_int) * NB_DAYS)()
-    # for i, day in enumerate(empty_availability):
-    #     Gate_0.availability[i] = (ct.c_int * 24)()
-    #     for j, hour in enumerate(day):
-    #         Gate_0.availability[i][j] = hour
-    # Gate_0.assigned_flights = (ct.POINTER(ct.POINTER(Flight)) * NB_DAYS)()
-    # for i, day in enumerate(empty_flights):
-    #     Gate_0.assigned_flights[i] = (ct.POINTER(Flight) * 24)()
-    #     for j, hour in enumerate(day):
-    #         Gate_0.assigned_flights[i][j] = hour
-    # Gate_1 = Gate()
-    # Gate_1.availability = (ct.POINTER(ct.c_int) * NB_DAYS)()
-    # for i, day in enumerate(empty_availability):
-    #     Gate_1.availability[i] = (ct.c_int * 24)()
-    #     for j, hour in enumerate(day):
-    #         Gate_1.availability[i][j] = hour
-    # Gate_1.assigned_flights = (ct.POINTER(ct.POINTER(Flight)) * NB_DAYS)()
-    # for i, day in enumerate(empty_flights):
-    #     Gate_1.assigned_flights[i] = (ct.POINTER(Flight) * 24)()
-    #     for j, hour in enumerate(day):
-    #         Gate_1.assigned_flights[i][j] = hour
-    # gates = [
-    #     Gate_0,
-    #     Gate_1
-    # ]
-    # c_gates = (Gate * len(gates))(*gates)
-    # c_test_airlines = (Airline * len(test_airlines))(*test_airlines)
-    #
+
     # # ---------------Test run of c_lib.gate_assignment---------------
-    # new_c_gates = c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
-    # print(type(c_gates))
-    # for i in range(2): #on vérifie que la fonction renvoie bien les information en python
-    #     for j in range(119):
-    #         for k in range(24):
-    #             print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, new_c_gates[i].availability[j][k]))
+
     Gate_0 = Gate()
     Gate_1 = Gate()
     gates = [
