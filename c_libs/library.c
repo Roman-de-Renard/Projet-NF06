@@ -214,7 +214,7 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                     if (gate_ind == n_of_gates) { // Si c'est la porte max
                         h += 2;
                         gate_ind = 0;
-                        if (h == 25) { // Si c'est l'heure max
+                        if (h == 24) { // Si c'est l'heure max
                             int n;
                             for (n = k; n < airlines->dbd_calendar[j].number_of_planned_flights - 1; n++) {
                                 airlines[i].dbd_calendar[j].flights_of_the_day[n] = airlines->dbd_calendar[j].flights_of_the_day[
@@ -224,15 +224,6 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                         }
                     }
                 }
-            }
-        }
-    }
-    for (i = 0; i < n_of_gates; i++){
-        printf("\n");
-        for (j = 0; j < 17*7; j++){
-            printf("\n");
-            for (h = 0; h < 24; h++){
-                printf("%d ", new_gates[i].availability[j][h]);
             }
         }
     }

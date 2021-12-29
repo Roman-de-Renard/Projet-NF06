@@ -114,6 +114,9 @@ class Airline(ct.Structure):
         else:
             self.dbd_calendar = ct.pointer(Day())
 
+    def __lt__(self, other):
+        return self.priority > other.priority
+
 
 class Gate(ct.Structure):
     _fields_ = [
