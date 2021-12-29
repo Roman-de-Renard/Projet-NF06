@@ -114,8 +114,7 @@ class Airline(ct.Structure):
         else:
             self.dbd_calendar = ct.pointer(Day())
 
-    def __lt__(self, other):
-        return self.priority > other.priority
+
 
 
 class Gate(ct.Structure):
@@ -136,4 +135,3 @@ class Gate(ct.Structure):
             for j in range(24):
                 self.availability[i][j] = availability[i][j]
                 self.assigned_flights[i][j] = assigned_flights[i][j]
-        # print("Created gate")

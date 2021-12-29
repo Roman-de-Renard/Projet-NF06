@@ -224,7 +224,7 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                         if (h == 24) {
                             int n;
                             for (n = k; n < airlines->dbd_calendar[j].number_of_planned_flights - 1; n++) {
-                                airlines[i].dbd_calendar[j].flights_of_the_day[n] = airlines->dbd_calendar[j].flights_of_the_day[
+                                airlines[i].dbd_calendar[j].flights_of_the_day[n] = airlines[i].dbd_calendar[j].flights_of_the_day[
                                         n + 1];
                                 airlines[i].dbd_calendar[j].number_of_planned_flights -= 1;
                             }
@@ -234,6 +234,17 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             }
         }
     }
+    for (i = 0; i < n_of_gates; i++){
+        printf("\n");
+        for (j = 0; j < 17*7; j++){
+            printf("\n");
+            for (h = 0; h < 24; h++){
+                printf("%d",new_gates[i].availability[j][h]);
+
+            }
+        }
+    }
+    return new_gates;
     /**
      * dans cette boucle nous attribuons les vols d'une compagnie à la fois, en fonction de sa priorité.
      * Pour chaque compagnie, nous itérons les jours sur les quatre mois, et chaque jour nou réinitialisons la
@@ -245,6 +256,4 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
      * Quand l'horaire atteint 24 c'est la signal pour passer au jour suivant nous supprimons les vols
      * restants du jour.
      */
-
-    return new_gates;
 }
