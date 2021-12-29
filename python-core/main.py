@@ -60,16 +60,21 @@ if __name__ == '__main__':
               Plane("Boeing 737", 155),
               Plane("Cessna", 6)]
     cities = ["Paris", "Tokyo", "London", "Troyes"]
-    routes = [
+    routes1 = [
         Route(0, [planes[1], planes[3]], cities[0], cities[2], 150, 200),
         Route(1, [planes[0], planes[2]], cities[0], cities[1], 250, 290),
         Route(2, [planes[4], planes[1], planes[3]], cities[0],
               cities[3], 2, 5)
     ]
-    test_airlines = [Airline("WTF Airways", routes, planes, 1), Airline("SHIT", routes, planes, 3)
+    routes2 = [
+        Route(1, [planes[1], planes[3]], cities[0], cities[2], 150, 200),
+        Route(0, [planes[0], planes[2]], cities[0], cities[1], 250, 290),
+        Route(2, [planes[4], planes[1], planes[3]], cities[0],
+              cities[3], 2, 5)
+    ]
+    test_airlines = [Airline("WTF Airways", routes1, planes, 1), Airline("SHIT", routes2, planes, 3)
                      ]
-    test_airlines.sort()
-
+    test_airlines.sort()  # classe les airlines en fonction de la priorité
 
     # ---------------Test run of c_lib.planning---------------
     for i in range(len(test_airlines)):
@@ -78,13 +83,12 @@ if __name__ == '__main__':
         print(i, " : ", test_airlines[0].dbd_calendar[i])
 
     # ---------------Test run of data_management---------------
-    calendar_flights_dataframe = data_management.frame_planned_flights(calendar, True,
-                                                                       "D:/Documents/NF06/Projet-NF06/planning.csv")
-    calendar_planes_dataframe = data_management\
-        .frame_available_planes(calendar, True, "D:/Documents/NF06/Projet-NF06/available_planes.csv")
-    calendar2 = data_management.calendar_from_dataframes(calendar_flights_dataframe, calendar_planes_dataframe)
-    print(calendar2)
-
+    # calendar_flights_dataframe = data_management.frame_planned_flights(calendar, True,
+    #                                                                    "D:/Documents/NF06/Projet-NF06/planning.csv")
+    # calendar_planes_dataframe = data_management\
+    #     .frame_available_planes(calendar, True, "D:/Documents/NF06/Projet-NF06/available_planes.csv")
+    # calendar2 = data_management.calendar_from_dataframes(calendar_flights_dataframe, calendar_planes_dataframe)
+    # print(calendar2)
 
     # # ---------------Test run of c_lib.gate_assignment---------------
 
@@ -98,9 +102,8 @@ if __name__ == '__main__':
     c_test_airlines = (Airline * len(test_airlines))(*test_airlines)
 
     # ---------------Test run of c_lib.gate_assignment---------------
-    c_gates = c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
-    print(type(c_gates))
+    new_c_gates = c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
     for i in range(2):  # on vérifie que la fonction renvoie bien les information en python
         for j in range(119):
             for k in range(24):
-                print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, c_gates[i].availability[j][k]))
+                print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, new_c_gates[i].availability[j][k]))
