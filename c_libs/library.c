@@ -185,6 +185,11 @@ struct day *planning(struct airline *current_airline) {
 }
 
 struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates) {
+    /**
+    *la fonction permet d'assigner aux portes les vols de chaque compagnie, on passe entrée la liste organisé
+    *des airlines en fonction de la priorité, son nombre ainsi que les listes vide de portes que nous mettrons à
+    *jour au cours de la fonction.
+    */
     int i, j, k, h, gate_ind;
     struct gate *new_gates;
     new_gates = malloc(n_of_gates*sizeof(struct gate));
@@ -197,9 +202,11 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             }
         }
     }
-
-    for (i = 0; i < n_of_airlines; i++) { // Pour chaque airline
-        for (j = 0; j < 119; j++) { // Pour chaque jour
+    /**
+     * dans cette première boucle on copie la liste des portes pour améliorer la stabilité du programme
+     */
+    for (i = 0; i < n_of_airlines; i++) {
+        for (j = 0; j < 119; j++) {
             h = 0;
             gate_ind = 0;
             for (k = 0; k < airlines[i].dbd_calendar[j].number_of_planned_flights; k++) { // Pour chaque vol :
@@ -208,13 +215,13 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
                     new_gates[gate_ind].assigned_flights[j][h + 1] = &airlines[i].dbd_calendar[j].flights_of_the_day[k];
                     new_gates[gate_ind].availability[j][h] = 1;
                     new_gates[gate_ind].availability[j][h + 1] = 1;
-                } else { // Si le creneau est occupe
-                    gate_ind += 1; // On regarde a la porte suivante
-                    k -= 1;// pour retester la condition avec le même vol
-                    if (gate_ind == n_of_gates) { // Si c'est la porte max
+                } else {
+                    gate_ind += 1;
+                    k -= 1;
+                    if (gate_ind == n_of_gates) {
                         h += 2;
                         gate_ind = 0;
-                        if (h == 24) { // Si c'est l'heure max
+                        if (h == 24) {
                             int n;
                             for (n = k; n < airlines->dbd_calendar[j].number_of_planned_flights - 1; n++) {
                                 airlines[i].dbd_calendar[j].flights_of_the_day[n] = airlines->dbd_calendar[j].flights_of_the_day[
@@ -227,5 +234,17 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             }
         }
     }
+    /**
+     * dans cette boucle nous attribuons les vols d'une compagnie à la fois, en fonction de sa priorité.
+     * Pour chaque compagnie, nous itérons les jours sur les quatre mois, et chaque jour nou réinitialisons la
+     * variable horaire (h) et indice de portes(gate_ind) pour attribuer les vols. Nous parcourons ensuite
+     * les vols du jour de la compagnie et nous attribuons le vol à un créneau et nous le bloquons le créneau
+     * si la le créneau n'est pas déjà bloqué. Si il est bloqué, nous regardons la porte suivante et retestons
+     * la condition de disponibilité. Quand toutes les portes d'un créneau sont alloués, nous augmentons
+     * l'horaire 2 de pour passer au prochain créneau et nou réinitialisons l'indice de porte.
+     * Quand l'horaire atteint 24 c'est la signal pour passer au jour suivant nous supprimons les vols
+     * restants du jour.
+     */
+
     return new_gates;
 }
