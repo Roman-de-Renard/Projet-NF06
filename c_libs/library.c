@@ -106,7 +106,6 @@ struct day *planning(struct airline *current_airline) {
         for (k = 0; k < calendar[j].number_of_available_planes; k++) {
             calendar[j].available_planes[k] = current_airline->fleet[k];
         }
-//        calendar[j].available_planes = current_airline->fleet;
         calendar[j].number_of_planned_flights = 0;
     }
 
