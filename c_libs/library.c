@@ -42,25 +42,25 @@ struct flight {
     char *departure_city;/**< chaine de caractères représentant la ville de départ du vol */
     char *arrival_city;/**< chaine de caractères représentant la ville d'arrivée du vol */
     struct plane attributed_plane;/**< structure plane représentant l'avion associé au vol */
-    int min_capacity;/**< entier représentant  */
-    int max_capacity;
+    int min_capacity;/**< entier représentant la capacité minimal du vol */
+    int max_capacity;/**< entier représentant la capacité maximal du vol */
 };
 
 
 struct airline {
-    char *name;
-    int number_of_route; // Length of flight_list
-    struct route *route_list; // List of all flights of an airline
-    int size_of_fleet; // Length of fleet
-    struct plane *fleet;
-    int priority; // Allows for prioritisation of certain airlines
-    struct day *dbd_calendar;
+    char *name;/**< chaine de caractère représentant le nom de la compagnie aérienne */
+    int number_of_route; /**< entier représentant le nombre de route que prend la compagnie aérienne */
+    struct route *route_list; /**< liste représentant les routes que prend la compagnie aérienne */
+    int size_of_fleet; /**< entier représentant la taille de la flotte de la compagnie aérienne */
+    struct plane *fleet;/**< liste représentant les avions de la compagnie aérienne */
+    int priority; /**< entier représentant la priorité de la compagnie aérienne */
+    struct day *dbd_calendar;/**< liste représentant les jours des 4 mois pour la compagnie */
 };
 
 
 struct gate {
-    int availability[(17 * 7)][24];
-    struct flight *assigned_flights[(17 *7)][24];
+    int availability[(17 * 7)][24];/**< tableau représentant les disponibilités de la porte */
+    struct flight *assigned_flights[(17 *7)][24];/**< tableau représentant les vols assignés à la porte */
 };
 
 
