@@ -69,6 +69,7 @@ if __name__ == '__main__':
 
     test_airlines = [Airline("WTF Airways", routes, planes, 1)
                      ]
+    test_airlines.sort()
 
     # ---------------Test run of c_lib.planning---------------
     for i in range(len(test_airlines)):
