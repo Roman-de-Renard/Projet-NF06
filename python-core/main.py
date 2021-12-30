@@ -32,15 +32,15 @@ def input_airline():
     routes = []
     name = input("Nom de la compagnie aérienne : ")
     priority = int(input("Niveau de priorité de la compagnie aérienne (entier) : "))
-    user_input = ""
-    while user_input != "n":
-        user_input = input("Ajouter un avion a la flotte ? y/n : ")
-        if user_input == "y":
+    user_input_1 = ""
+    while user_input_1 != "n":
+        user_input_1 = input("Ajouter un avion a la flotte ? y/n : ")
+        if user_input_1 == "y":
             fleet.append(input_plane())
-    user_input = ""
-    while user_input != "n":
-        user_input = input("Ajouter un itinéraire à la compagnie ? y/n : ")
-        if user_input == "y":
+    user_input_1 = ""
+    while user_input_1 != "n":
+        user_input_1 = input("Ajouter un itinéraire à la compagnie ? y/n : ")
+        if user_input_1 == "y":
             frequency = int(input("Fréquence de l'itinéraire (0=quotidien, 1=hebdomadaire, 2=mensuel) : "))
             possible_planes = []
             user_input_2 = ""
@@ -117,10 +117,10 @@ if __name__ == '__main__':
     c_lib.gate_assignment.restype = ct.POINTER(Gate)
 
     airlines = []
-    uinput = ""
+    user_input = ""
     while uinput != "n":
-        uinput = input("Voulez-vous ajouter une compagnie aérienne ? y / n : ")
-        if uinput == "y":
+        user_input = input("Voulez-vous ajouter une compagnie aérienne ? y / n : ")
+        if user_input == "y":
             airlines.append(input_airline())
     airlines.sort()
     c_airlines = (Airline * len(airlines))(*airlines)
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     for i in range(len(airlines)):
         c_lib.planning(c_airlines[i])
 
-    uinput = input("Voulez-vous enregistrer les plannings dans des fichiers .csv ? y/n : ")
+    user_input = input("Voulez-vous enregistrer les plannings dans des fichiers .csv ? y/n : ")
     if uinput == "y":
         uinput1 = input("Chemin du dossier dans lequel les enregistrer (utilisant '/, y compris celui de fin) : ")
         for i in range(len(airlines)):
