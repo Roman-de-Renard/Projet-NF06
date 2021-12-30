@@ -24,10 +24,18 @@ def open_dll(name='libc_libs.dll'):
 
 
 def input_plane():
+    """
+    Permet a l'utilisateur de rentrer les caractéristiques d'un avion
+    :return: objet "Plane" entré.
+    """
     return Plane(input("Type de l'avion : "), int(input("Capacité maximale de l'avion : ")))
 
 
 def input_airline():
+    """
+    Permet a l'utilisateur de rentrer les caractéristiques d'une compagnie aerienne
+    :return: objet "Airline" entré.
+    """
     fleet = []
     routes = []
     name = input("Nom de la compagnie aérienne : ")
@@ -57,7 +65,9 @@ def input_airline():
 
 
 def testing():
-    print("coucou je m'exécute")
+    """
+    Permet a l'utilisateur de tester le programme avec des valeurs prédéfinies.
+    """
     # ---------------Creation of test airlines and its parameters--------------
     planes = [Plane("Airbus A320", 258),
               Plane("Boeing 747", 182),
@@ -72,7 +82,7 @@ def testing():
               cities[3], 2, 5)
     ]
 
-    test_airlines = [Airline("WTF Airways", routes, planes, 1)
+    test_airlines = [Airline("UTTair", routes, planes, 1)
                      ]
     test_airlines.sort()
 
