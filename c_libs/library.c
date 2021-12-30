@@ -172,7 +172,7 @@ struct day *planning(struct airline *current_airline) {
                     }
                     calendar[j].number_of_available_planes -= 1;
                     calendar[j].number_of_planned_flights += 1;
-                    free(attributed_plane.plane_type)
+                    free(attributed_plane.plane_type);
                 } else { printf("Jour %d : Echec de l'attribution d'avion\n", j); }
             }
         }
