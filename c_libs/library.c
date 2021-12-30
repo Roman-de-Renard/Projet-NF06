@@ -244,7 +244,16 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             }
         }
     }
-    return new_gates;
+    for (i = 0; i < n_of_gates; i++){
+        for (j = 0; j < 17*7; j++){
+            for (h = 0; h < 24; h++){
+                gates[i].availability[j][h]= new_gates[i].availability[j][h];
+                gates[i].assigned_flights[j][h] = new_gates[i].assigned_flights[j][h];
+
+            }
+        }
+    }
+    return gates;
     /**
      * dans cette boucle nous attribuons les vols d'une compagnie à la fois, en fonction de sa priorité.
      * Pour chaque compagnie, nous itérons les jours sur les quatre mois, et chaque jour nou réinitialisons la
