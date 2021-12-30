@@ -13,54 +13,54 @@
 
 
 struct plane {
-    char *plane_type;
-    int max_capacity;
+    char *plane_type;/**< chaine de caractères représentant le type de l'avion */
+    int max_capacity;/**< entier représentant la capacité maximal de l'avion */
 };
 
 
 struct day {
-    int number_of_planned_flights;
-    struct flight *flights_of_the_day;
-    int number_of_available_planes;
-    struct plane *available_planes;
+    int number_of_planned_flights;/**< entier représentant le nombre de vols planifiés dans une journée */
+    struct flight *flights_of_the_day;/**< liste représentant les vols planifiés dans une journéee */
+    int number_of_available_planes;/**< entier représentant le nombre d'avion disponible dans une journée */
+    struct plane *available_planes;/**< liste représentant les avions disponibles de la journée */
 };
 
 
 struct route {
-    int frequency;
-    int number_of_possible_planes;
-    struct plane *possible_planes;
-    char *departure_city;
-    char *arrival_city;
-    int min_capacity;
-    int max_capacity;
+    int frequency;/**< entier représentant la fréquence de la route */
+    int number_of_possible_planes;/**< entier représentant le nombre d'avion disponible pour prendre une route */
+    struct plane *possible_planes;/**< liste d'avion disponible pour prendre la route */
+    char *departure_city;/**< chaine de caractères représentant la ville de départ de la route */
+    char *arrival_city;/**< chaine de caractères représentant la ville d'arrivée de la route */
+    int min_capacity;/**< entier représentant la capacité minimal pour prendre la route */
+    int max_capacity;/**< entier représentant la capacité maximal de l'avion */
 };
 
 
 struct flight {
-    char number[7];
-    char *departure_city;
-    char *arrival_city;
-    struct plane attributed_plane;
-    int min_capacity;
-    int max_capacity;
+    char number[7];/**< chaine de caractères représentant le numéro du vol */
+    char *departure_city;/**< chaine de caractères représentant la ville de départ du vol */
+    char *arrival_city;/**< chaine de caractères représentant la ville d'arrivée du vol */
+    struct plane attributed_plane;/**< structure plane représentant l'avion associé au vol */
+    int min_capacity;/**< entier représentant la capacité minimal du vol */
+    int max_capacity;/**< entier représentant la capacité maximal du vol */
 };
 
 
 struct airline {
-    char *name;
-    int number_of_route; // Length of flight_list
-    struct route *route_list; // List of all flights of an airline
-    int size_of_fleet; // Length of fleet
-    struct plane *fleet;
-    int priority; // Allows for prioritisation of certain airlines
-    struct day *dbd_calendar;
+    char *name;/**< chaine de caractère représentant le nom de la compagnie aérienne */
+    int number_of_route; /**< entier représentant le nombre de route que prend la compagnie aérienne */
+    struct route *route_list; /**< liste représentant les routes que prend la compagnie aérienne */
+    int size_of_fleet; /**< entier représentant la taille de la flotte de la compagnie aérienne */
+    struct plane *fleet;/**< liste représentant les avions de la compagnie aérienne */
+    int priority; /**< entier représentant la priorité de la compagnie aérienne */
+    struct day *dbd_calendar;/**< liste représentant les jours des 4 mois pour la compagnie */
 };
 
 
 struct gate {
-    int availability[(17 * 7)][24];
-    struct flight *assigned_flights[(17 *7)][24];
+    int availability[(17 * 7)][24];/**< tableau représentant les disponibilités de la porte */
+    struct flight *assigned_flights[(17 *7)][24];/**< tableau représentant les vols assignés à la porte */
 };
 
 
@@ -180,6 +180,7 @@ struct day *planning(struct airline *current_airline) {
 //    On attribue le calendrier a la compagnie aerienne, et on le renvoit
     current_airline->dbd_calendar = malloc(17 * 7 * sizeof(struct day));
     current_airline->dbd_calendar = calendar;
+
     return calendar;
 }
 
@@ -237,6 +238,7 @@ void gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates
             }
         }
     }
+
     for (i = 0; i < n_of_gates; i++){
         printf("\n");
         for (j = 0; j < 17*7; j++){
@@ -247,5 +249,4 @@ void gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates
             }
         }
     }
-
 }
