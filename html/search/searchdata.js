@@ -1,21 +1,24 @@
 var indexSectionsWithContent =
 {
-  0: "cdfmo",
-  1: "cdm",
-  2: "fo"
+  0: "_acdfgmopr",
+  1: "adfgpr",
+  2: "cdm",
+  3: "_fo"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "namespaces",
-  2: "functions"
+  1: "classes",
+  2: "namespaces",
+  3: "functions"
 };
 
 var indexSectionLabels =
 {
   0: "All",
-  1: "Namespaces",
-  2: "Functions"
+  1: "Data Structures",
+  2: "Namespaces",
+  3: "Functions"
 };
 
