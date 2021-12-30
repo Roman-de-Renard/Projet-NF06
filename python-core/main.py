@@ -118,7 +118,7 @@ if __name__ == '__main__':
 
     airlines = []
     user_input = ""
-    while uinput != "n":
+    while user_input != "n":
         user_input = input("Voulez-vous ajouter une compagnie aérienne ? y / n : ")
         if user_input == "y":
             airlines.append(input_airline())
@@ -129,11 +129,11 @@ if __name__ == '__main__':
         c_lib.planning(c_airlines[i])
 
     user_input = input("Voulez-vous enregistrer les plannings dans des fichiers .csv ? y/n : ")
-    if uinput == "y":
-        uinput1 = input("Chemin du dossier dans lequel les enregistrer (utilisant '/, y compris celui de fin) : ")
+    if user_input == "y":
+        user_input1 = input("Chemin du dossier dans lequel les enregistrer (utilisant '/, y compris celui de fin) : ")
         for i in range(len(airlines)):
             data_management.frame_planned_flights(c_airlines[i].dbd_calendar, tocsv=True,
-                                                  filename=uinput1+c_airlines[i].name+"-planned_flights.csv")
+                                                  filename=user_input1+c_airlines[i].name+"-planned_flights.csv")
             data_management.frame_available_planes(c_airlines[i].dbd_calendar, tocsv=True,
-                                                   filename=uinput1+c_airlines[i].name+"-available_planes.csv")
+                                                   filename=user_input1+c_airlines[i].name+"-available_planes.csv")
 
