@@ -145,7 +145,8 @@ struct day *planning(struct airline *current_airline) {
                         && plane_in_array(calendar[j].available_planes[k],
                                           current_airline->route_list[i].number_of_possible_planes,
                                           current_airline->route_list[i].possible_planes)) {
-                        attributed_plane = calendar[j].available_planes[k];
+                        attributed_plane.plane_type = calendar[j].available_planes[k].plane_type;
+                        attributed_plane.max_capacity = calendar[j].available_planes[k].max_capacity;
                         chosen_plane_index = k;
                     }
                 }
