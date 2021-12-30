@@ -74,10 +74,10 @@ struct gate;
 /**
  * Fonction plane_in_array:
  * Verifie la presence d'un avion dans un tableau d'avions, renvoie 1 si l'avion est present, sinon 0.
- * param "airplane" : structure de type "plane" dont on veut vérifier la présence dans un tableau.
- * param "array_length" : entier correspondant a la longueur du tableau.
- * param "airplane_array" : tableau de "plane" dans lequel on veut verifier la presence de "airplane".
- * return : entier de valeur 0 ou 1, assimilable a un booleen
+ * @param airplane : structure de type "plane" dont on veut vérifier la présence dans un tableau.
+ * @param array_length : entier correspondant a la longueur du tableau.
+ * @param airplane_array : tableau de "plane" dans lequel on veut verifier la presence de "airplane".
+ * @return : entier de valeur 0 ou 1, assimilable a un booleen
  */
 int plane_in_array(struct plane airplane, int array_length, struct plane *airplane_array);
 
@@ -91,6 +91,7 @@ int min(int x, int y);
  * La fonction planning permet de créer un emploi du temps pour chaque compagnie aérienne.
  * La compagnie qu'on lui passe est modifiée dans la fonction
  * @param current_airline la compagnie aérienne qu'on passe depuis Python
+ * @return calendar le calendrier sur 4 mois
  */
 struct day* planning(struct airline *current_airline);
 
