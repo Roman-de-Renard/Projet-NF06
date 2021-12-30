@@ -96,7 +96,7 @@ if __name__ == '__main__':
     c_test_airlines = (Airline * len(test_airlines))(*test_airlines)
 
     # ---------------Test run of c_lib.gate_assignment---------------
-    c_gates = c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
+    c_lib.gate_assignment(len(test_airlines), c_test_airlines, len(gates), c_gates)
 
     for i in range(2):  # on vérifie que la fonction renvoie bien les information en python
         for j in range(119):

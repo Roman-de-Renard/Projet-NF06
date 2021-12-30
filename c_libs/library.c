@@ -184,7 +184,7 @@ struct day *planning(struct airline *current_airline) {
     return calendar;
 }
 
-struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates) {
+void gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates) {
     /**
     *la fonction permet d'assigner aux portes les vols de chaque compagnie, on passe entrée la liste organisé
     *des airlines en fonction de la priorité, son nombre ainsi que les listes vide de portes que nous mettrons à
@@ -234,16 +234,7 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             }
         }
     }
-    for (i = 0; i < n_of_gates; i++){
-        printf("\n");
-        for (j = 0; j < 17*7; j++){
-            printf("\n");
-            for (h = 0; h < 24; h++){
-                printf("%d",new_gates[i].availability[j][h]);
 
-            }
-        }
-    }
     for (i = 0; i < n_of_gates; i++){
         for (j = 0; j < 17*7; j++){
             for (h = 0; h < 24; h++){
@@ -253,7 +244,16 @@ struct gate* gate_assignment(int n_of_airlines, struct airline *airlines, int n_
             }
         }
     }
-    return gates;
+    for (i = 0; i < n_of_gates; i++){
+        printf("\n");
+        for (j = 0; j < 17*7; j++){
+            printf("\n");
+            for (h = 0; h < 24; h++){
+                printf("%d",gates[i].availability[j][h]);
+
+            }
+        }
+    }
     /**
      * dans cette boucle nous attribuons les vols d'une compagnie à la fois, en fonction de sa priorité.
      * Pour chaque compagnie, nous itérons les jours sur les quatre mois, et chaque jour nou réinitialisons la
