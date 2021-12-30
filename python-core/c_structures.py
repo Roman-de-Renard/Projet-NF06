@@ -1,6 +1,20 @@
+"""
+ :file: c_structures.py
+ :author: Martin Guérout et Roman Robin
+ :date: 30/12/2020
+ structure Ctypes utilisées dans le programme
+
+"""
+
 import ctypes as ct
 
-
+/**
+* \struct plane
+* \brief structure représentant un avion
+*
+* La structure plane permet de représenter un avion par son type
+* et le nombre maximum de passagers qu'il peut prendre
+*/
 class Plane(ct.Structure):
     _fields_ = [
         ("plane_type", ct.c_char_p),

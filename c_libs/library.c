@@ -1,15 +1,36 @@
+/**
+* \file library.c
+* \author Martin Guérout et Roman Robin
+* \date 30/12/2020
+* Code des fonctions C utilisées dans le cadre du projet de NF06 en automne 2021
+*/
+
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 
-//Structures
+/**
+ * \struct plane
+ * \brief structure représentant un avion
+ *
+ * La structure plane permet de représenter un avion par son type
+ * et le nombre maximum de passagers qu'il peut prendre
+ */
 struct plane {
     char *plane_type;
     int max_capacity;
 };
 
-
+/**
+ * \struct day
+ * \brief structure représentant un jour
+ *
+ * La structure jour permet de représenter une journée des 4 mois par
+ * le nombre d'avions planifiés, la liste des avions planifiés,
+ * le nombre d'avion disponible et la liste d'avion disponible
+ */
 struct day {
     int number_of_planned_flights;
     struct flight *flights_of_the_day;
@@ -17,7 +38,15 @@ struct day {
     struct plane *available_planes;
 };
 
-
+/**
+ * \struct route
+ * \brief structure représentant une route que peut prendre un vol
+ *
+ * La structure route permet de représenter par sa fréquence, le nombre
+ * d'avion possible pouvant prendre cette route, la liste de ces avions,
+ * la ville de départ de la route, la ville d'arrivée, la capacité minimal
+ * pour prendre cette route ett la capacité maximal
+ */
 struct route {
     int frequency;
     int number_of_possible_planes;
@@ -28,7 +57,14 @@ struct route {
     int max_capacity;
 };
 
-
+/**
+ * \struct flight
+ * \brief structure représentant un vol
+ *
+ * La structure flight permet de représenter un vol par son numéro,
+ * sa ville de départ, sa ville d'arrivée, l'avion qui lui est
+ * attribué, la capacité minimal et maximal pour décoller
+ */
 struct flight {
     char number[7];
     char *departure_city;
@@ -38,7 +74,15 @@ struct flight {
     int max_capacity;
 };
 
-
+/**
+ * \struct airline
+ * \brief structure représentant un compagnie aérienne
+ *
+ * La structure airline permet de représenter une compagnie aérienne par son nom,
+ * le nombre de route qu'elle dessert, la liste des routes qu'elle dessert, la taille
+ * de sa flotte, la liste des avions de sa flotte, sa priorité et son plannig
+ *
+ */
 struct airline {
     char *name;
     int number_of_route; // Length of flight_list
@@ -49,11 +93,16 @@ struct airline {
     struct day *dbd_calendar;
 };
 
-
+/**
+ * \struct gate
+ * \brief structure représentant une porte
+ *
+ * La structure gate permet de représenter une porte par ses disponibilité
+ * et la liste des avions qui sont assignés
+ */
 struct gate {
     int availability[(17 * 7)][24];
-    struct flight *assigned_flights[(17 *
-                                     7)][24]; // On aura 2 fois le meme pointeur sur les 2 heures consécutives (permet des 9-11 par exemple)
+    struct flight *assigned_flights[(17 *7)][24];
 };
 
 
@@ -95,7 +144,11 @@ int min(int x, int y) {
     return (x < y) ? x : y;
 }
 
-
+/**
+ * La fonction planning permet de créer un emploi du temps pour chaque compagnie aérienne.
+ * La compagnie qu'on lui passe est modifiée dans la fonction
+ * @param current_airline la compagnie aérienne qu'on passe depuis Python
+ */
 struct day *planning(struct airline *current_airline) {
     int i, j, k;
     struct day *calendar = malloc(7 * 17 * sizeof(struct day));
@@ -183,13 +236,17 @@ struct day *planning(struct airline *current_airline) {
     current_airline->dbd_calendar = calendar;
     return calendar;
 }
-
+/**
+ * La fonction gate_assignment permet d'assigner aux portes les vols de chaque compagnie.
+ * La liste des portes est modifiée dans la fonction
+ * @param n_of_airlines le nombre d'éléments dans le tableau airlines
+ * @param airlines le tableau des vols
+ * @param n_of_gates le nombre d'éléments dans le tableau gate
+ * @param gates les portes auxquelles on peut assigner des vols
+ * @bug problème d'affichage à la sortie
+ */
 void gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates) {
-    /**
-    *la fonction permet d'assigner aux portes les vols de chaque compagnie, on passe entrée la liste organisé
-    *des airlines en fonction de la priorité, son nombre ainsi que les listes vide de portes que nous mettrons à
-    *jour au cours de la fonction.
-    */
+
     int i, j, k, h, gate_ind;
     struct gate *new_gates;
     new_gates = malloc(n_of_gates*sizeof(struct gate));
@@ -202,9 +259,7 @@ void gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates
             }
         }
     }
-    /**
-     * dans cette première boucle on copie la liste des portes pour améliorer la stabilité du programme
-     */
+
     for (i = 0; i < n_of_airlines; i++) {
         for (j = 0; j < 119; j++) {
             h = 0;
@@ -254,15 +309,5 @@ void gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates
             }
         }
     }
-    /**
-     * dans cette boucle nous attribuons les vols d'une compagnie à la fois, en fonction de sa priorité.
-     * Pour chaque compagnie, nous itérons les jours sur les quatre mois, et chaque jour nou réinitialisons la
-     * variable horaire (h) et indice de portes(gate_ind) pour attribuer les vols. Nous parcourons ensuite
-     * les vols du jour de la compagnie et nous attribuons le vol à un créneau et nous le bloquons le créneau
-     * si la le créneau n'est pas déjà bloqué. Si il est bloqué, nous regardons la porte suivante et retestons
-     * la condition de disponibilité. Quand toutes les portes d'un créneau sont alloués, nous augmentons
-     * l'horaire 2 de pour passer au prochain créneau et nou réinitialisons l'indice de porte.
-     * Quand l'horaire atteint 24 c'est la signal pour passer au jour suivant nous supprimons les vols
-     * restants du jour.
-     */
+
 }

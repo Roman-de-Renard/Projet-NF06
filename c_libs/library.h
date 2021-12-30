@@ -1,3 +1,11 @@
+/**
+* \file library.h
+* \author Martin Guérout et Roman Robin
+* \date 30/12/2020
+* Les fonctions C utilisées dans le cadre du projet de NF06 en automne 2021
+*/
+
+
 #ifndef PROJET_NF06_LIBRARY_H
 #define PROJET_NF06_LIBRARY_H
 

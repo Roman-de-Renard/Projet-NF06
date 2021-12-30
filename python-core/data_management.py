@@ -1,3 +1,12 @@
+"""
+ @file data_management.py
+ @author Martin Guérout et Roman Robin
+ @date 30/12/2020
+
+
+"""
+
+
 from c_structures import *
 from constants import *
 import pandas as pd
