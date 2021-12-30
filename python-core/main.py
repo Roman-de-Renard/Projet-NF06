@@ -1,7 +1,7 @@
 """
- :file: main.py
- :author: Martin Guérout et Roman Robin
- :date: 30/12/2020
+ :file main.py
+ :author Martin Guérout et Roman Robin
+ :date 30/12/2020
  Code principal utilisées dans le cadre du projet de NF06 en automne 2021
 
 """
@@ -13,15 +13,18 @@ import data_management
 
 
 def open_dll(name='libc_libs.dll'):
-    # on remonte sur le dossier du projet
+    """
+    fonction permettant d'utiliser les fonction de la librairie partagée
+    :param name:nom du dossier contenant la librairie partagée
+    :return:le chemin vers le fichier ouvert et prêt à utiliser
+    """
     lib_path = Path().absolute().parent
-    # et on redescend l'arborescence dans le dossier du code C
     lib_path = lib_path / 'c_libs' / 'cmake-build-debug' / name
-    # puis on ouvre la librairie partagée avec ctypes et on la retourne
     return ct.CDLL(lib_path.as_posix())
 
 
-def assign_plane_value(airline_list, airline, flight, plane):  # permet d'assigner les valeurs d'entrée
+def assign_plane_value(airline_list, airline, flight, plane):
+
     user_input = ""
     user_input1 = ""
     user_input2 = ""

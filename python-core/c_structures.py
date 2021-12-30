@@ -8,13 +8,7 @@
 
 import ctypes as ct
 
-/**
-* \struct plane
-* \brief structure représentant un avion
-*
-* La structure plane permet de représenter un avion par son type
-* et le nombre maximum de passagers qu'il peut prendre
-*/
+
 class Plane(ct.Structure):
     """
     Classe Plane, heritee de ctypes.Structure. Classe "wrapper" pour la structure "plane" de library.c, memes attributs.
