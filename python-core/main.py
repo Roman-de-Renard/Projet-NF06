@@ -57,6 +57,7 @@ def input_airline():
 
 
 def testing():
+    print("coucou je m'exécute")
     # ---------------Creation of test airlines and its parameters--------------
     planes = [Plane("Airbus A320", 258),
               Plane("Boeing 747", 182),
@@ -118,7 +119,7 @@ if __name__ == '__main__':
 
     start_input = input("Programme d'optimisation de la planification des vols, par Martin Guerout et Roman Robin, \
     dans le cadre de l'UE NF06 en A21.\nPressez Entrée pour continuer...")
-    if start_input == testing:
+    if start_input == "testing":
         testing()
 
     else:
