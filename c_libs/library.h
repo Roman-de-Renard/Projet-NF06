@@ -77,7 +77,7 @@ struct gate;
  * @param airplane : structure de type "plane" dont on veut vérifier la présence dans un tableau.
  * @param array_length : entier correspondant a la longueur du tableau.
  * @param airplane_array : tableau de "plane" dans lequel on veut verifier la presence de "airplane".
- * @return : entier de valeur 0 ou 1, assimilable a un booleen
+ * @return : entier de valeur 0 ou 1, assimilable a un booleen, 1 nous indique qu'il est dans le tableau, 0 l'inverse
  */
 int plane_in_array(struct plane airplane, int array_length, struct plane *airplane_array);
 
