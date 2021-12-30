@@ -23,47 +23,40 @@ def open_dll(name='libc_libs.dll'):
     return ct.CDLL(lib_path.as_posix())
 
 
-def assign_plane_value(airline_list, airline, flight, plane):
+def input_plane():
+    return Plane(input("Type de l'avion : "), int(input("Capacité maximale de l'avion")))
 
+
+def input_airline():
+    fleet = []
+    routes = []
+    name = input("Nom de la compagnie aérienne : ")
+    priority = int(input("Niveau de priorité de la compagnie aérienne (entier) : "))
     user_input = ""
-    user_input1 = ""
-    user_input2 = ""
-    airline.flight_list = []
-    airline.fleet = []
-    airline.number_of_flight = 0
     while user_input != "n":
-        user_input = input("Voulez vous créer une compagnie? (y/n)")
-        if user_input == "n":
-            break
+        user_input = input("Ajouter un avion a la flotte ? y/n : ")
         if user_input == "y":
-            airline.name = input("entrer le nom de la compagnie: ")
-            while user_input1 != "n":
-                user_input1 = input("Voulez vous ajoutez un avion à la flotte? (y/n)")
-                if user_input1 == "n":
-                    break
-                plane.type = input("Quel est le type de l'avion")
-                plane.max_capacity = input("Quel est la capacité maximum de l'avion?")
-                airline.fleet.append(plane)
-            while user_input2 != "n":
-                user_input2 = input("Voulez vous ajoutez un vol? (y/n)")
-                if user_input2 == "n":
-                    break
-                airline.number_of_flight += 1
-                flight.number = input("Entrez le numéro du vol")
-                flight.frequency = int(input("Entrez la fréquence du vol"))
-                flight.min_capacity = int(input("Entrez la capacite minimal du vol"))
-                flight.max_capacity = int(input("Entrez la capacite maximal du vol"))
-                airline.flight_list.append(flight)
-        airline_list.append(airline)
+            fleet.append(input_plane())
+    user_input = ""
+    while user_input != "n":
+        user_input = input("Ajouter un itinéraire à la compagnie ? y/n : ")
+        if user_input == "y":
+            frequency = int(input("Fréquence de l'itinéraire (0=quotidien, 1=hebdomadaire, 2=mensuel) : "))
+            possible_planes = []
+            user_input_2 = ""
+            while user_input_2 != "n":
+                user_input_2 = input("Ajouter un avion possible pour l'itinéraire ? y/n : ")
+                if user_input_2 == "y":
+                    possible_planes.append(input_plane())
+            depcity = input("Nom de la ville de départ : ")
+            arrcity = input("Nom de la ville d'arrivée : ")
+            mincap = int(input("Capacité minimale d'opération de l'itinéraire"))
+            maxcap = int(input("Capacité maximale d'opération de l'itinéraire"))
+            routes.append(Route(frequency, possible_planes, depcity, arrcity, mincap, maxcap))
+    return Airline(name, routes, fleet, priority)
 
 
-if __name__ == '__main__':
-    c_lib = open_dll()
-    c_lib.planning.argtypes = [ct.POINTER(Airline)]
-    c_lib.planning.restype = ct.POINTER(Day)
-    c_lib.gate_assignment.argtypes = (ct.c_long, ct.POINTER(Airline), ct.c_long, ct.POINTER(Gate))
-    c_lib.gate_assignment.restype = ct.POINTER(Gate)
-
+def testing():
     # ---------------Creation of test airlines and its parameters--------------
     planes = [Plane("Airbus A320", 258),
               Plane("Boeing 747", 182),
@@ -114,3 +107,33 @@ if __name__ == '__main__':
         for j in range(119):
             for k in range(24):
                 print("Door {}, day {}, hour {} : Availability : {}".format(i, j, k, c_gates[i].availability[j][k]))
+
+
+if __name__ == '__main__':
+    c_lib = open_dll()
+    c_lib.planning.argtypes = [ct.POINTER(Airline)]
+    c_lib.planning.restype = ct.POINTER(Day)
+    c_lib.gate_assignment.argtypes = (ct.c_long, ct.POINTER(Airline), ct.c_long, ct.POINTER(Gate))
+    c_lib.gate_assignment.restype = ct.POINTER(Gate)
+
+    airlines = []
+    uinput = ""
+    while uinput != "n":
+        uinput = input("Voulez-vous ajouter une compagnie aérienne ? y / n : ")
+        if uinput == "y":
+            airlines.append(input_airline())
+    airlines.sort()
+    c_airlines = (Airline * len(airlines))(*airlines)
+
+    for i in range(len(airlines)):
+        c_lib.planning(c_airlines[i])
+
+    uinput = input("Voulez-vous enregistrer les plannings dans des fichiers .csv ? y/n : ")
+    if uinput == "y":
+        uinput1 = input("Chemin du dossier dans lequel les enregistrer (utilisant '/, y compris celui de fin) : ")
+        for i in range(len(airlines)):
+            data_management.frame_planned_flights(c_airlines[i].dbd_calendar, tocsv=True,
+                                                  filename=uinput1+c_airlines[i].name+"-planned_flights.csv")
+            data_management.frame_available_planes(c_airlines[i].dbd_calendar, tocsv=True,
+                                                   filename=uinput1+c_airlines[i].name+"-available_planes.csv")
+

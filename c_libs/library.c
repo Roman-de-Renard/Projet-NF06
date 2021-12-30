@@ -139,9 +139,9 @@ struct day *planning(struct airline *current_airline) {
                 for (k = 0; k < calendar[j].number_of_available_planes; k++) {
 //                    On choisi l'avion disponible et pouvant effectuer le vol dont la capacite maximale est la plus
 //                     proche de celle du vol, tout en restant au dessus de sa capacite minimale
-                    if (abs(calendar[j].available_planes[k].max_capacity -
-                            current_airline->route_list[i].max_capacity) <
-                        abs(attributed_plane.max_capacity - current_airline->route_list[i].max_capacity)
+                    if ((abs(calendar[j].available_planes[k].max_capacity -
+                            current_airline->route_list[i].max_capacity)
+                        < abs(attributed_plane.max_capacity - current_airline->route_list[i].max_capacity))
                         && plane_in_array(calendar[j].available_planes[k],
                                           current_airline->route_list[i].number_of_possible_planes,
                                           current_airline->route_list[i].possible_planes)) {
@@ -172,6 +172,7 @@ struct day *planning(struct airline *current_airline) {
                     }
                     calendar[j].number_of_available_planes -= 1;
                     calendar[j].number_of_planned_flights += 1;
+                    free(attributed_plane.plane_type)
                 } else { printf("Jour %d : Echec de l'attribution d'avion\n", j); }
             }
         }

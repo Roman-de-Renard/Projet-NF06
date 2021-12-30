@@ -18,7 +18,7 @@ pd.options.display.max_columns = 9999
 def frame_planned_flights(calendar: ct.POINTER(Day), tocsv: bool = False, filename: str = "") -> pd.DataFrame:
     """
     Renvoie un DataFrame pandas à partir d'un calendar.
-    Ce DataFrame constion toutes les information sur les vols planifiés
+    Ce DataFrame contient toutes les information sur les vols planifiés
     :param calendar: le calendrier à transformer en dataframe
     :param tocsv: True pour exporter le dataframe vers un fichier CSV
     :param filename: le path et le nom du fichier CSV si tocsv est True
@@ -54,7 +54,7 @@ def frame_planned_flights(calendar: ct.POINTER(Day), tocsv: bool = False, filena
 def frame_available_planes(calendar: ct.POINTER(Day), tocsv: bool = False, filename: str = "") -> pd.DataFrame:
     """
     Renvoie un DataFrame pandas à partir d'un calendar.
-    Ce DataFrame constion toutes les information sur les avions disponibles
+    Ce DataFrame contient toutes les information sur les avions disponibles
     :param calendar: le calendrier à transformer en dataframe
     :param tocsv: True pour exporter le dataframe vers un fichier CSV
     :param filename: le path et le nom du fichier CSV si tocsv est True
@@ -77,34 +77,34 @@ def frame_available_planes(calendar: ct.POINTER(Day), tocsv: bool = False, filen
     return available_planes_dataframe
 
 
-def calendar_from_dataframes(planned_flights_dataframe, available_planes_dataframe) -> ct.Array:
-    calendar = (Day * NB_DAYS)()
-    for i in range(NB_DAYS):
-        day_flights_df = planned_flights_dataframe[planned_flights_dataframe["day"] == i]
-        calendar[i].number_of_planned_flights = ct.c_int(day_flights_df.shape[0])
-        calendar[i].flights_of_the_day = (Flight * day_flights_df.shape[0])()
-        k = 0
-        for j, row in day_flights_df.iterrows():
-            print("i = ", i, "j = ", j, "\n", day_flights_df, "\n")
-            calendar[i].flights_of_the_day[k].number = bytes(row["number"], 'utf-8')
-            calendar[i].flights_of_the_day[k].departure_city = bytes(row["departure_city"], 'utf-8')
-            calendar[i].flights_of_the_day[k].arrival_city = bytes(row["arrival_city"], 'utf-8')
-            calendar[i].flights_of_the_day[k].attributed_plane.plane_type = \
-                bytes(row["plane_type"], 'utf-8')
-            calendar[i].flights_of_the_day[k].attributed_plane.max_capacity = \
-                ct.c_int(row["plane_maxcap"])
-            calendar[i].flights_of_the_day[k].min_capacity = ct.c_int(row["min_capacity"])
-            calendar[i].flights_of_the_day[k].max_capacity = ct.c_int(row["max_capacity"])
-            k += 1
-
-        day_planes_df = available_planes_dataframe[available_planes_dataframe["day"] == i]
-        calendar[i].number_of_available_flights = ct.c_int(day_planes_df.shape[0])
-        calendar[i].available_planes = (Plane * day_planes_df.shape[0])()
-        k = 0
-        for j, row in day_planes_df.iterrows():
-            print("i = ", i, "j = ", j, "\n", day_planes_df, "\n")
-            calendar[i].available_planes[k].plane_type = bytes(row["plane_type"], 'utf-8')
-            calendar[i].available_planes[k].max_capacity = ct.c_int(row["max_capacity"])
-            k += 1
-
-    return calendar
+# def calendar_from_dataframes(planned_flights_dataframe, available_planes_dataframe) -> ct.Array:
+#     calendar = (Day * NB_DAYS)()
+#     for i in range(NB_DAYS):
+#         day_flights_df = planned_flights_dataframe[planned_flights_dataframe["day"] == i]
+#         calendar[i].number_of_planned_flights = ct.c_int(day_flights_df.shape[0])
+#         calendar[i].flights_of_the_day = (Flight * day_flights_df.shape[0])()
+#         k = 0
+#         for j, row in day_flights_df.iterrows():
+#             print("i = ", i, "j = ", j, "\n", day_flights_df, "\n")
+#             calendar[i].flights_of_the_day[k].number = bytes(row["number"], 'utf-8')
+#             calendar[i].flights_of_the_day[k].departure_city = bytes(row["departure_city"], 'utf-8')
+#             calendar[i].flights_of_the_day[k].arrival_city = bytes(row["arrival_city"], 'utf-8')
+#             calendar[i].flights_of_the_day[k].attributed_plane.plane_type = \
+#                 bytes(row["plane_type"], 'utf-8')
+#             calendar[i].flights_of_the_day[k].attributed_plane.max_capacity = \
+#                 ct.c_int(row["plane_maxcap"])
+#             calendar[i].flights_of_the_day[k].min_capacity = ct.c_int(row["min_capacity"])
+#             calendar[i].flights_of_the_day[k].max_capacity = ct.c_int(row["max_capacity"])
+#             k += 1
+#
+#         day_planes_df = available_planes_dataframe[available_planes_dataframe["day"] == i]
+#         calendar[i].number_of_available_flights = ct.c_int(day_planes_df.shape[0])
+#         calendar[i].available_planes = (Plane * day_planes_df.shape[0])()
+#         k = 0
+#         for j, row in day_planes_df.iterrows():
+#             print("i = ", i, "j = ", j, "\n", day_planes_df, "\n")
+#             calendar[i].available_planes[k].plane_type = bytes(row["plane_type"], 'utf-8')
+#             calendar[i].available_planes[k].max_capacity = ct.c_int(row["max_capacity"])
+#             k += 1
+#
+#     return calendar
