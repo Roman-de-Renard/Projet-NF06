@@ -11,26 +11,13 @@
 #include <stdio.h>
 
 
-/**
- * \struct plane
- * \brief structure représentant un avion
- *
- * La structure plane permet de représenter un avion par son type
- * et le nombre maximum de passagers qu'il peut prendre
- */
+
 struct plane {
     char *plane_type;
     int max_capacity;
 };
 
-/**
- * \struct day
- * \brief structure représentant un jour
- *
- * La structure jour permet de représenter une journée des 4 mois par
- * le nombre d'avions planifiés, la liste des avions planifiés,
- * le nombre d'avion disponible et la liste d'avion disponible
- */
+
 struct day {
     int number_of_planned_flights;
     struct flight *flights_of_the_day;
@@ -38,15 +25,7 @@ struct day {
     struct plane *available_planes;
 };
 
-/**
- * \struct route
- * \brief structure représentant une route que peut prendre un vol
- *
- * La structure route permet de représenter par sa fréquence, le nombre
- * d'avion possible pouvant prendre cette route, la liste de ces avions,
- * la ville de départ de la route, la ville d'arrivée, la capacité minimal
- * pour prendre cette route ett la capacité maximal
- */
+
 struct route {
     int frequency;
     int number_of_possible_planes;
@@ -57,14 +36,7 @@ struct route {
     int max_capacity;
 };
 
-/**
- * \struct flight
- * \brief structure représentant un vol
- *
- * La structure flight permet de représenter un vol par son numéro,
- * sa ville de départ, sa ville d'arrivée, l'avion qui lui est
- * attribué, la capacité minimal et maximal pour décoller
- */
+
 struct flight {
     char number[7];
     char *departure_city;
@@ -74,15 +46,7 @@ struct flight {
     int max_capacity;
 };
 
-/**
- * \struct airline
- * \brief structure représentant un compagnie aérienne
- *
- * La structure airline permet de représenter une compagnie aérienne par son nom,
- * le nombre de route qu'elle dessert, la liste des routes qu'elle dessert, la taille
- * de sa flotte, la liste des avions de sa flotte, sa priorité et son plannig
- *
- */
+
 struct airline {
     char *name;
     int number_of_route; // Length of flight_list
@@ -93,48 +57,15 @@ struct airline {
     struct day *dbd_calendar;
 };
 
-/**
- * \struct gate
- * \brief structure représentant une porte
- *
- * La structure gate permet de représenter une porte par ses disponibilité
- * et la liste des avions qui sont assignés
- */
+
 struct gate {
     int availability[(17 * 7)][24];
     struct flight *assigned_flights[(17 *7)][24];
 };
 
 
-//Functions and procedures
-
-//void print_plane(struct plane airplane) {
-//    printf("\nThe %s airplane has a max capacity of %d", airplane.plane_type, airplane.max_capacity);
-//}
-//
-//void print_flight(struct route air_route) {
-//    //printf("\nThe flight id %s, with frequency id %d can be done by %d planes", air_route.number, air_route.frequency, air_route.number_of_possible_planes);
-//    int i;
-//    for(i = 0; i < air_route.number_of_possible_planes; i++) {
-//        print_plane(air_route.possible_planes[i]);
-//    }
-//    printf("\nThe flight has a min capacity of %d and a max capacity of %d", air_route.min_capacity, air_route.max_capacity);
-//}
-//void print_airline(struct airline current_airline)
-//{
-//    printf("\nThe company is %s, it has %d flight and a priority of %d", current_airline.name, current_airline.number_of_route,current_airline.priority);
-//}
-
-
 int plane_in_array(struct plane airplane, int array_length, struct plane *airplane_array) {
-    /**
-     * Fonction plane_in_array:
-     * Verifie la presence d'un avion dans un tableau d'avions, renvoie 1 si l'avion est present, sinon 0.
-     * param "airplane" : structure de type "plane" dont on veut vérifier la présence dans un tableau.
-     * param "array_length" : entier correspondant a la longueur du tableau.
-     * param "airplane_array" : tableau de "plane" dans lequel on veut verifier la presence de "airplane".
-     * return : entier de valeur 0 ou 1, assimilable a un booleen
-     */
+
     int i;
     int is_in_array = 0;
     for (i = 0; i < array_length; i++) {
@@ -149,24 +80,11 @@ int plane_in_array(struct plane airplane, int array_length, struct plane *airpla
 
 
 int min(int x, int y) {
-    /**Renvoie le minimum du couple (x, y) de ses paramètres.*/
     return (x < y) ? x : y;
 }
 
-/**
- * La fonction planning permet de créer un emploi du temps pour chaque compagnie aérienne.
- * La compagnie qu'on lui passe est modifiée dans la fonction
- * @param current_airline la compagnie aérienne qu'on passe depuis Python
- */
+
 struct day *planning(struct airline *current_airline) {
-    /**
-     * Fonction "planning"
-     * Permet la planification jour par jour des vols d'une comapgnie aérienne, en accord avec sa flotte d'avions
-     * ainsi que le maximum de 4 vols par jour.
-     * param "current_airline" : objet "airline" dont les itinéraires et la flotte sont attribués,
-     *                           mais dont le calendrier n'est pas encore défini.
-     * return : "calendar", calendrier des vols planifiés de la compagnie aérienne, sous la forme d'un tableau.
-     */
     int i, j, k;
     struct day *calendar = malloc(7 * 17 * sizeof(struct day));
     for (j = 0; j < 17 * 7; j++) {
@@ -181,11 +99,11 @@ struct day *planning(struct airline *current_airline) {
 
 
     for (i = 0; i < current_airline->number_of_route; i++) { // Pour tout  i, itinéraire
-        /**On itere sur tous les itineraires de la compagnie aerienne*/
+        //On itere sur tous les itineraires de la compagnie aerienne
         //Attribution de day_interval
         int day_interval;
         switch (current_airline->route_list[i].frequency) {
-            /** On determine ici la frequence d'iteration des vols en fonction de la valeur donnee dans l'itineraire*/
+            // On determine ici la frequence d'iteration des vols en fonction de la valeur donnee dans l'itineraire
             case 0:
                 day_interval = 1;
                 break;
@@ -202,9 +120,8 @@ struct day *planning(struct airline *current_airline) {
         //Choix du jour de départ
         int start_day = 0;
         for (j = 0; j < day_interval; j++) { // Pour les day_interval premiers jours
-            /**Calcul du jour de depart de l'iteration d'attribution des vols. On choisi le premier des jours les plus
-             * vides dans l'intervalle [0, frequence du vol[.
-             */
+//          Calcul du jour de depart de l'iteration d'attribution des vols. On choisi le premier des jours les plus
+//           vides dans l'intervalle [0, frequence du vol[.
             if (calendar[j].number_of_planned_flights < calendar[start_day].number_of_planned_flights) {
                 start_day = j;
             }
@@ -212,17 +129,16 @@ struct day *planning(struct airline *current_airline) {
         for (j = start_day; j < 7 * 17; j += day_interval) { // Tout les day_interval jours, en partant de start_day
             if (calendar[j].number_of_planned_flights < 4 && calendar[j].number_of_available_planes >=
                                                              1) { // Si on a pas deja 4 vols et qu'on a au moins un avion dispo
-                /**On itere tous les x jours selon la frequence, depuis le jour de depart et jusqu'a 119,
-                 * tout en ignorant les jours ou 4 vols sont deja planifies*/
+//                On itere tous les x jours selon la frequence, depuis le jour de depart et jusqu'a 119,
+//                tout en ignorant les jours ou 4 vols sont deja planifies*/
                 // Choix de l'avion
                 struct plane attributed_plane;
                 attributed_plane.plane_type = malloc(128 * sizeof(char));
                 attributed_plane.max_capacity = 0;
                 int chosen_plane_index; // For deletion in available_planes
                 for (k = 0; k < calendar[j].number_of_available_planes; k++) {
-                    /**On choisi l'avion disponible et pouvant effectuer le vol dont la capacite maximale est la plus
-                     * proche de celle du vol, tout en restant au dessus de sa capacite minimale
-                     */
+//                    On choisi l'avion disponible et pouvant effectuer le vol dont la capacite maximale est la plus
+//                     proche de celle du vol, tout en restant au dessus de sa capacite minimale
                     if (abs(calendar[j].available_planes[k].max_capacity -
                             current_airline->route_list[i].max_capacity) <
                         abs(attributed_plane.max_capacity - current_airline->route_list[i].max_capacity)
@@ -234,8 +150,8 @@ struct day *planning(struct airline *current_airline) {
                     }
                 }
                 if (attributed_plane.max_capacity != 0) { // Si on a reussi a attribuer un avion
-                    /**Si un avion a ete attribue au vol, on ajoute le vol a la liste des vols planifies dans le
-                     * calendrier, et on genere son numero d'identification*/
+//                    Si un avion a ete attribue au vol, on ajoute le vol a la liste des vols planifies dans le
+//                     calendrier, et on genere son numero d'identification
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].attributed_plane = attributed_plane;
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].min_capacity = current_airline->route_list[i].min_capacity;
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city = malloc(
@@ -260,20 +176,12 @@ struct day *planning(struct airline *current_airline) {
             }
         }
     }
-    /**On attribue le calendrier a la compagnie aerienne, et on le renvoit*/
+//    On attribue le calendrier a la compagnie aerienne, et on le renvoit
     current_airline->dbd_calendar = malloc(17 * 7 * sizeof(struct day));
     current_airline->dbd_calendar = calendar;
     return calendar;
 }
-/**
- * La fonction gate_assignment permet d'assigner aux portes les vols de chaque compagnie.
- * La liste des portes est modifiée dans la fonction
- * @param n_of_airlines le nombre d'éléments dans le tableau airlines
- * @param airlines le tableau des vols
- * @param n_of_gates le nombre d'éléments dans le tableau gate
- * @param gates les portes auxquelles on peut assigner des vols
- * @bug problème d'affichage à la sortie
- */
+
 void gate_assignment(int n_of_airlines, struct airline *airlines, int n_of_gates, struct gate *gates) {
 
     int i, j, k, h, gate_ind;
