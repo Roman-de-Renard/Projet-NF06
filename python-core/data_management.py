@@ -16,6 +16,14 @@ pd.options.display.max_columns = 9999
 
 
 def frame_planned_flights(calendar: ct.POINTER(Day), tocsv: bool = False, filename: str = "") -> pd.DataFrame:
+    """
+    Renvoie un DataFrame pandas à partir d'un calendar.
+    Ce DataFrame constion toutes les information sur les vols planifiés
+    :param calendar: le calendrier à transformer en dataframe
+    :param tocsv: True pour exporter le dataframe vers un fichier CSV
+    :param filename: le path et le nom du fichier CSV si tocsv est True
+    :return: Le DataFrame contenant les vols planifiés du calendar
+    """
     planned_flights = {
         "day": [],
         "number": [],
@@ -44,6 +52,14 @@ def frame_planned_flights(calendar: ct.POINTER(Day), tocsv: bool = False, filena
 
 
 def frame_available_planes(calendar: ct.POINTER(Day), tocsv: bool = False, filename: str = "") -> pd.DataFrame:
+    """
+    Renvoie un DataFrame pandas à partir d'un calendar.
+    Ce DataFrame constion toutes les information sur les avions disponibles
+    :param calendar: le calendrier à transformer en dataframe
+    :param tocsv: True pour exporter le dataframe vers un fichier CSV
+    :param filename: le path et le nom du fichier CSV si tocsv est True
+    :return: Le DataFrame contenant les avions disponibles du calendar
+    """
     available_planes = {
         "day": [],
         "plane_type": [],

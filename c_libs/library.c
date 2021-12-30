@@ -127,6 +127,14 @@ struct gate {
 
 
 int plane_in_array(struct plane airplane, int array_length, struct plane *airplane_array) {
+    /**
+     * Fonction plane_in_array:
+     * Verifie la presence d'un avion dans un tableau d'avions, renvoie 1 si l'avion est present, sinon 0.
+     * param "airplane" : structure de type "plane" dont on veut vérifier la présence dans un tableau.
+     * param "array_length" : entier correspondant a la longueur du tableau.
+     * param "airplane_array" : tableau de "plane" dans lequel on veut verifier la presence de "airplane".
+     * return : entier de valeur 0 ou 1, assimilable a un booleen
+     */
     int i;
     int is_in_array = 0;
     for (i = 0; i < array_length; i++) {
@@ -141,6 +149,7 @@ int plane_in_array(struct plane airplane, int array_length, struct plane *airpla
 
 
 int min(int x, int y) {
+    /**Renvoie le minimum du couple (x, y) de ses paramètres.*/
     return (x < y) ? x : y;
 }
 
@@ -150,6 +159,14 @@ int min(int x, int y) {
  * @param current_airline la compagnie aérienne qu'on passe depuis Python
  */
 struct day *planning(struct airline *current_airline) {
+    /**
+     * Fonction "planning"
+     * Permet la planification jour par jour des vols d'une comapgnie aérienne, en accord avec sa flotte d'avions
+     * ainsi que le maximum de 4 vols par jour.
+     * param "current_airline" : objet "airline" dont les itinéraires et la flotte sont attribués,
+     *                           mais dont le calendrier n'est pas encore défini.
+     * return : "calendar", calendrier des vols planifiés de la compagnie aérienne, sous la forme d'un tableau.
+     */
     int i, j, k;
     struct day *calendar = malloc(7 * 17 * sizeof(struct day));
     for (j = 0; j < 17 * 7; j++) {
@@ -164,9 +181,11 @@ struct day *planning(struct airline *current_airline) {
 
 
     for (i = 0; i < current_airline->number_of_route; i++) { // Pour tout  i, itinéraire
+        /**On itere sur tous les itineraires de la compagnie aerienne*/
         //Attribution de day_interval
         int day_interval;
         switch (current_airline->route_list[i].frequency) {
+            /** On determine ici la frequence d'iteration des vols en fonction de la valeur donnee dans l'itineraire*/
             case 0:
                 day_interval = 1;
                 break;
@@ -183,6 +202,9 @@ struct day *planning(struct airline *current_airline) {
         //Choix du jour de départ
         int start_day = 0;
         for (j = 0; j < day_interval; j++) { // Pour les day_interval premiers jours
+            /**Calcul du jour de depart de l'iteration d'attribution des vols. On choisi le premier des jours les plus
+             * vides dans l'intervalle [0, frequence du vol[.
+             */
             if (calendar[j].number_of_planned_flights < calendar[start_day].number_of_planned_flights) {
                 start_day = j;
             }
@@ -190,12 +212,17 @@ struct day *planning(struct airline *current_airline) {
         for (j = start_day; j < 7 * 17; j += day_interval) { // Tout les day_interval jours, en partant de start_day
             if (calendar[j].number_of_planned_flights < 4 && calendar[j].number_of_available_planes >=
                                                              1) { // Si on a pas deja 4 vols et qu'on a au moins un avion dispo
+                /**On itere tous les x jours selon la frequence, depuis le jour de depart et jusqu'a 119,
+                 * tout en ignorant les jours ou 4 vols sont deja planifies*/
                 // Choix de l'avion
                 struct plane attributed_plane;
                 attributed_plane.plane_type = malloc(128 * sizeof(char));
                 attributed_plane.max_capacity = 0;
                 int chosen_plane_index; // For deletion in available_planes
                 for (k = 0; k < calendar[j].number_of_available_planes; k++) {
+                    /**On choisi l'avion disponible et pouvant effectuer le vol dont la capacite maximale est la plus
+                     * proche de celle du vol, tout en restant au dessus de sa capacite minimale
+                     */
                     if (abs(calendar[j].available_planes[k].max_capacity -
                             current_airline->route_list[i].max_capacity) <
                         abs(attributed_plane.max_capacity - current_airline->route_list[i].max_capacity)
@@ -207,6 +234,8 @@ struct day *planning(struct airline *current_airline) {
                     }
                 }
                 if (attributed_plane.max_capacity != 0) { // Si on a reussi a attribuer un avion
+                    /**Si un avion a ete attribue au vol, on ajoute le vol a la liste des vols planifies dans le
+                     * calendrier, et on genere son numero d'identification*/
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].attributed_plane = attributed_plane;
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].min_capacity = current_airline->route_list[i].min_capacity;
                     calendar[j].flights_of_the_day[calendar[j].number_of_planned_flights].departure_city = malloc(
@@ -226,12 +255,12 @@ struct day *planning(struct airline *current_airline) {
                         calendar[j].available_planes[k - 1] = calendar[j].available_planes[k];
                     }
                     calendar[j].number_of_available_planes -= 1;
-//                    calendar[j].available_planes = (struct plane *) realloc(calendar[j].available_planes, calendar[j].number_of_available_planes * sizeof(struct plane));
                     calendar[j].number_of_planned_flights += 1;
                 } else { printf("Jour %d : Echec de l'attribution d'avion\n", j); }
             }
         }
     }
+    /**On attribue le calendrier a la compagnie aerienne, et on le renvoit*/
     current_airline->dbd_calendar = malloc(17 * 7 * sizeof(struct day));
     current_airline->dbd_calendar = calendar;
     return calendar;
